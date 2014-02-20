@@ -8,12 +8,16 @@ import java.util.Vector;
 import Excepciones.CodigoPartidaRepetidoException;
 import Excepciones.Exceptiones;
 import Excepciones.HayPartidasIniciadasException;
+import Excepciones.PartidaInsuficientesJugadoresException;
 import Excepciones.PartidaNoExisteException;
 
 
 public interface IFacadeLogica extends Remote{
 	
-	public void CrearNuevaPartida(DataCrearNuevaPartida dataCrearNuevaPartida) throws HayPartidasIniciadasException, CodigoPartidaRepetidoException;
+	public void CrearNuevaPartida(DataCrearNuevaPartida dataCrearNuevaPartida) 
+			throws HayPartidasIniciadasException, 
+			CodigoPartidaRepetidoException,
+			PartidaInsuficientesJugadoresException;
 	public Partida ObtenerPartida(String clave) throws PartidaNoExisteException;
 	public boolean NoHayPartidas();
 	public boolean ExistePartida(String clave);

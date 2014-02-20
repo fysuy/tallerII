@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import Excepciones.CodigoPartidaRepetidoException;
+import Excepciones.PartidaInsuficientesJugadoresException;
 import Excepciones.PartidaNoExisteException;
 import Excepciones.HayPartidasIniciadasException;
 
@@ -31,26 +32,19 @@ public class Facade implements IFacadeLogica {
 	}
 	
 
-	public void CrearNuevaPartida(DataCrearNuevaPartida dataCrearNuevaPartida) throws HayPartidasIniciadasException, CodigoPartidaRepetidoException {
+	public void CrearNuevaPartida(DataCrearNuevaPartida dataCrearNuevaPartida) 
+			throws HayPartidasIniciadasException, 
+			CodigoPartidaRepetidoException,
+			PartidaInsuficientesJugadoresException {
 		
-		boolean hayPartidaIniciada = partidas.HayAlgunaPartidaIniciada();
-
-		if(hayPartidaIniciada)
-		{
+		if(partidas.HayAlgunaPartidaIniciada())
 			throw new HayPartidasIniciadasException("La partida ya esta iniciada");
-		}
-		else
-		{
-			boolean yaExisteElCodigo = partidas.HayAlgunaPartidaIniciada();
-			if(yaExisteElCodigo)
-			{
-				throw new CodigoPartidaRepetidoException("Ya existe una partida con ese código");
-			}
-			else
-			{
-				partidas.insert(dataCrearNuevaPartida.getCodigo(), dataCrearNuevaPartida);
-			}			
-		}		
+		if(partidas.ExisteCodigo(dataCrearNuevaPartida.getCodigo()))
+			throw new CodigoPartidaRepetidoException("Ya existe una partida con ese código");
+		if(dataCrearNuevaPartida.getArregloNombres().length < 2)
+			throw new PartidaInsuficientesJugadoresException("Insuficientes jugadores");
+			
+		partidas.insert(dataCrearNuevaPartida.getCodigo(), dataCrearNuevaPartida);
 	}
 	
 	public Partida ObtenerPartida(String clave) throws PartidaNoExisteException{

@@ -85,6 +85,24 @@ public class Partidas implements Serializable {
 			return hay;
 		}
 		
+		public boolean ExisteCodigo(String codigo) 
+		{
+			Iterator <Partida> iteradorPartidas = tm.values().iterator();
+			boolean existe = false;
+			String codigoPartida = "";
+			
+			while (iteradorPartidas.hasNext() && !existe)
+			{ 
+				codigoPartida = iteradorPartidas.next().getCodigo();
+				if(codigoPartida == codigo)
+				{
+					existe = true;
+				}
+			}
+
+			return existe;
+		}
+		
 		
 		public boolean esVacio(){
 			return(tm.isEmpty());

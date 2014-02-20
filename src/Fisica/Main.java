@@ -35,7 +35,7 @@ public class Main {
 		String codigoPartida;		
 		//String[] arregloNombres;
 		
-		codigoPartida = "A12";	
+		codigoPartida = "A13";	
 		
 		ArrayList<String> listaNombres = new ArrayList<String>();
 		listaNombres.add("Luis");
