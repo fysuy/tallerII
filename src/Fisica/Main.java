@@ -24,48 +24,29 @@ public class Main {
 	public static void main(String[] args){
 		
 		DataCrearNuevaPartida dataCrearNuevaPartida;
-		DataJugador dataJugador1, dataJugador2;
 		Facade fac;
-		Cartas cartas = new Cartas();
-		Jugadores jugadores = new Jugadores();
 				
 		System.out.println("Requerimiento 1 Crear una nueva partida");
-		System.out.println("==========================================");
+		System.out.println("=======================================");
 		
-		String codigoPartida;		
-		//String[] arregloNombres;
-		
-		codigoPartida = "A13";	
-		
+		String codigoPartida = "A13";		
 		ArrayList<String> listaNombres = new ArrayList<String>();
 		listaNombres.add("Luis");
 		listaNombres.add("Tony");
 		listaNombres.add("Dario");
 		listaNombres.add("Japo");
-	    
 		String[] arregloNombres = new String[listaNombres.size()];
 		arregloNombres = listaNombres.toArray(arregloNombres);
 	    
-		/*arregloNombres = new String[20];
-		arregloNombres[0] = new String("Luis");
-		arregloNombres[1] = new String("Tony");
-		arregloNombres[2] = new String("Dario");
-		arregloNombres[3] = new String("Japo");
-		*/
 		dataCrearNuevaPartida = new DataCrearNuevaPartida(codigoPartida, arregloNombres);
-		try {
-			
+		try 
+		{
 			fac = Facade.getInstance();
 			fac.CrearNuevaPartida(dataCrearNuevaPartida);
+		} 
+		catch (Exception e) { e.printStackTrace(); }
 		
-		} catch (Exception e) {
-			
-			e.printStackTrace();
-		}
-		
-		
-		
-		codigoPartida = "A13";	
+		codigoPartida = "A12";	
 		listaNombres = new ArrayList<String>();
 		listaNombres.add("Valdez");
 		listaNombres.add("Orteman");
@@ -77,106 +58,84 @@ public class Main {
 		
     	dataCrearNuevaPartida = new DataCrearNuevaPartida(codigoPartida, arregloNombres);
 		
-		try {
-			
+		try 
+		{
 			fac = Facade.getInstance();
 			fac.CrearNuevaPartida(dataCrearNuevaPartida);
+		} 
+		catch (Exception e) { e.printStackTrace(); }
 		
-		} catch (Exception e) {
-			
-			e.printStackTrace();
-		}
 		
 		
 	    System.out.println("Requerimiento 2 Listar codigos de partidas");
 		System.out.println("==========================================");
-		try {
-
+		
+		try 
+		{
 			fac = Facade.getInstance();
 			String arregloCodigosPartidas[] = fac.listarCodigosPartidas();
 						
-			for( int i=0; i<arregloCodigosPartidas.length ; i ++ ){ 
-				
+			for( int i=0; i<arregloCodigosPartidas.length ; i ++ )
 				System.out.println("Codigo partida: " + arregloCodigosPartidas[i]);
-				System.out.println("\n");
-				/*System.out.println("Próximo jugador");
-				System.out.println("==============");
-				System.out.println("Nombre: " + arregloPartidas[i].getProximoJugador().getNombre());
-				System.out.println("Puntos: " + arregloPartidas[i].getProximoJugador().getPuntos());
-				System.out.println("\n");
-				System.out.println("Eventual ganador");
-				System.out.println("==============");
-				System.out.println("Nombre: " + arregloPartidas[i].getEventualGanador().getNombre());
-				System.out.println("Puntos: " + arregloPartidas[i].getEventualGanador().getPuntos());*/
-				
-			} 
-		} catch (Exception e) {
 			
-			e.printStackTrace();
-		}
+		} catch (Exception e) { e.printStackTrace(); }
 		
 		System.out.println("Requerimiento 3 Iniciar una nueva partida");
-		System.out.println("==========================================");
+		System.out.println("=========================================");
 		
-			    String codigo = "A12";
-			
-				try {			
-					fac = Facade.getInstance();			
-					fac.IniciarNuevaPartida(codigo);
-
-				} catch (Exception e) {
-					
-					e.printStackTrace();
-				}
-		        	
-			
-				codigo = "A13";
-				try {			
-					fac = Facade.getInstance();
-					fac.IniciarNuevaPartida(codigo);
-				} catch (Exception e) {
-					
-					e.printStackTrace();
-				}
-		   
-
+	    String codigo = "A12";
+	
+		try 
+		{			
+			fac = Facade.getInstance();			
+			fac.IniciarNuevaPartida(codigo);
+		} 
+		catch (Exception e) { e.printStackTrace(); }
+        	
+		codigo = "A13";
+		try 
+		{			
+			fac = Facade.getInstance();
+			fac.IniciarNuevaPartida(codigo);
+		} 
+		catch (Exception e) { e.printStackTrace(); }
 		
-				System.out.println("listo nuevamente las partidas");
-				System.out.println("===========================");
+		System.out.println("Listo nuevamente las partidas");
+		System.out.println("=============================");
 				
-		System.out.println("Partidas");
-		System.out.println("==========");
-		try {
-
+		try 
+		{
 			fac = Facade.getInstance();
 			String arregloCodigosPartidas[] = fac.listarCodigosPartidas();
 						
-			for( int i=0; i<arregloCodigosPartidas.length ; i ++ ){ 
-
+			for( int i=0; i<arregloCodigosPartidas.length ; i ++ )
 				System.out.println("Codigo partida: " + arregloCodigosPartidas[i]);
-			} 
-		} catch (Exception e) {
-			
-			e.printStackTrace();
-		}
+		} 
+		catch (Exception e) { e.printStackTrace(); }
 		
-				
-		System.out.println("Requerimiento 7 Visualizar cartas");
-		System.out.println("===========================");
+		System.out.println("Requerimiento 4 Respaldar datos");
+		System.out.println("===============================");
+		
 		try {
+			fac = Facade.getInstance();
+			fac.RespaldarDatos();
+		} catch (Exception e) { e.printStackTrace(); }
 
+		
+		System.out.println("Requerimiento 7 Visualizar cartas");
+		System.out.println("=================================");
+		try 
+		{
 			fac = Facade.getInstance();
 			DataVisualizarCartas arregloDataVisualizarCartas[] = fac.VisualizarCartas();
 			
-			for( int i=0; i<arregloDataVisualizarCartas.length ; i ++ ){ 
-				
+			for( int i=0; i<arregloDataVisualizarCartas.length ; i ++ )
+			{ 
 				System.out.println("");
 				System.out.println("Numero: " + arregloDataVisualizarCartas[i].getNumero());
 				System.out.println("Nombre: " + arregloDataVisualizarCartas[i].getNombre());
 				System.out.println("Puntos: " + arregloDataVisualizarCartas[i].getPuntos());
 				System.out.println("Cartas: " + arregloDataVisualizarCartas[i].getCartas());
-				
-				
 			} 
 		} catch (Exception e) {
 			

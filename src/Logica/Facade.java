@@ -1,36 +1,34 @@
 package Logica;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
-import java.sql.Connection;
-import java.util.Iterator;
-import java.util.Vector;
 
 import Excepciones.CodigoPartidaRepetidoException;
 import Excepciones.PartidaInsuficientesJugadoresException;
 import Excepciones.PartidaNoExisteException;
 import Excepciones.HayPartidasIniciadasException;
+import Persistencia.*;
 
 public class Facade implements IFacadeLogica {
 	
 	private static Facade instance = null;
-	public Partidas partidas;
-	public Cartas cartas;
-	public Jugadores jugadores;
+	private Partidas partidas;
+	private Cartas cartas;
+	private Jugadores jugadores;
 	
-	private Facade()throws RemoteException{
-
+	private Facade()throws RemoteException {
 		partidas= new Partidas();
 		cartas= new Cartas();
 		jugadores= new Jugadores();
 	}
-	//se aplica el patron singleton
-	public static Facade getInstance()throws Exception{
-		if(instance == null){
+	
+	//Se aplica el patron Singleton
+	public static Facade getInstance() throws Exception {
+		if(instance == null)
 			instance = new Facade();
 		
-		}return instance;
+		return instance;
 	}
-	
 
 	public void CrearNuevaPartida(DataCrearNuevaPartida dataCrearNuevaPartida) 
 			throws HayPartidasIniciadasException, 
@@ -103,19 +101,25 @@ public class Facade implements IFacadeLogica {
 		return partidas.HayAlgunaPartidaIniciada();
 	}
 	public void BajarCartasAlMazo() {
-
 		cartas.BajarCartasAlMazo();
-		
 	}
+	
 	public DataVisualizarCartas[] VisualizarCartas() {
-		
 		DataVisualizarCartas arregloDataVisualizarCartas[] = jugadores.VisualizarCartas();
     	return arregloDataVisualizarCartas;
-		
 	}
+	
+	public void RespaldarDatos()
+	{
+		try 
+		{
+			Respaldo respaldo = new Respaldo();
+			respaldo.Respaldar(partidas, cartas);
+		}
+		catch (IOException e) { e.printStackTrace(); }
+	}
+	
 	public boolean MazoCreado() {
-
-		
 		return cartas.MazoCreado();
 	}
 

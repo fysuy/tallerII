@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
-import java.util.TreeMap;
 
 public class Jugadores implements Serializable {
 	
@@ -13,7 +12,7 @@ public class Jugadores implements Serializable {
 		
 		public Jugadores()
 		{ 			
-			ht = new Hashtable(); 
+			ht = new Hashtable<Integer, Jugador>(); 
 		}
 		
 		public boolean member (int clave)
@@ -50,7 +49,6 @@ public class Jugadores implements Serializable {
 				arregloDataVisualizarCartas[i] = new DataVisualizarCartas(dataVisualizarCartas.getNumero(), dataVisualizarCartas.getNombre(), dataVisualizarCartas.getPuntos(), dataVisualizarCartas.getCartas());
 				i++;
 			}
-			
 						
 			return arregloDataVisualizarCartas;
 		}
