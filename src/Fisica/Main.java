@@ -1,23 +1,13 @@
 package Fisica;
 
 import java.util.ArrayList;
-import java.util.TreeMap;
-
-import Excepciones.PartidaNoExisteException;
-import Excepciones.HayPartidasIniciadasException;
-import Logica.Carta;
-import Logica.Cartas;
-import Logica.DataCarta;
 import Logica.DataCrearNuevaPartida;
-import Logica.DataJugador;
 import Logica.DataListarJugadoresPartidas;
 import Logica.DataPartida;
 import Logica.DataVisualizarCartas;
 import Logica.Facade;
 import Logica.Jugador;
-import Logica.Jugadores;
 import Logica.Partida;
-import Logica.Partidas;
 
 public class Main {
 

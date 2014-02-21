@@ -51,4 +51,20 @@ public class Respaldo {
 		}
 		catch(IOException e){ throw e; }
 	}
+	
+//	public Datos Recuperar() throws IOException
+//	{
+////		_datos.setPartidas(partidas);
+////		_datos.setMazo(mazo);
+//		
+//		try
+//		{
+//			FileOutputStream f = new FileOutputStream(getRuta());
+//			ObjectOutputStream o = new ObjectOutputStream(f);
+//			o.writeObject(_datos);
+//			o.close();
+//			f.close();
+//		}
+//		catch(IOException e){ throw e; }
+//	}
 }
