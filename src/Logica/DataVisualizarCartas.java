@@ -1,7 +1,6 @@
 package Logica;
 import java.io.Serializable;
 
-import Logica.Carta;
 
 public class DataVisualizarCartas implements Serializable {
 	private int numero;

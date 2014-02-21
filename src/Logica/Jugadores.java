@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
-import java.util.TreeMap;
 
 public class Jugadores implements Serializable {
 	
@@ -65,6 +64,22 @@ public class Jugadores implements Serializable {
 			{ 
 				Jugador jugador = iteradorJugadores.next();
 				arregloJugadores[i] = new DataListarJugadoresPartidas(jugador.getNumero(),jugador.getNombre(), jugador.getPuntos());
+				i++;
+			}
+			
+			return arregloJugadores;
+		}
+		
+		public DataJugador[] obtenerJugadores()
+		{
+			DataJugador arregloJugadores[] = new DataJugador[ht.size()]; 
+			Iterator <Jugador> iteradorJugadores = ht.values().iterator();
+			
+			int i = 0;
+			while (iteradorJugadores.hasNext())
+			{ 
+				Jugador jugador = iteradorJugadores.next();
+				arregloJugadores[i] = new DataJugador(jugador.getNumero(),jugador.getNombre(), jugador.getPuntos(), jugador.isEnturno(), jugador.isEliminado(), jugador.getCartas());
 				i++;
 			}
 			
