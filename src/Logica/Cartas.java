@@ -1,12 +1,7 @@
 package Logica;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
-import java.util.TreeMap;
 
 public class Cartas implements Serializable {
 	
@@ -93,10 +88,10 @@ public class Cartas implements Serializable {
 		this.tope--;
 	}
 	
-	public Jugador darCarta(Jugador jugador){
+	public DataJugador darCarta(DataJugador jugador){
 		//obtengo la carta de arriba y la borro del mazo
 		Carta carta = arregloCartas[this.tope];
-		this.borrarCarta();
+		borrarCarta();
 		Cartas cartas = jugador.getCartas();
 		//asigno la carta al jugador
 		cartas.tope++;

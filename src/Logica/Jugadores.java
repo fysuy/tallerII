@@ -68,6 +68,22 @@ public class Jugadores implements Serializable {
 			
 			return arregloJugadores;
 		}
+		
+		public DataJugador[] obtenerJugadores()
+		{
+			DataJugador arregloJugadores[] = new DataJugador[ht.size()]; 
+			Iterator <Jugador> iteradorJugadores = ht.values().iterator();
+			
+			int i = 0;
+			while (iteradorJugadores.hasNext())
+			{ 
+				Jugador jugador = iteradorJugadores.next();
+				arregloJugadores[i] = new DataJugador(jugador.getNumero(),jugador.getNombre(), jugador.getPuntos(), jugador.isEnturno(), jugador.isEliminado(), jugador.getCartas());
+				i++;
+			}
+			
+			return arregloJugadores;
+		}
 
 
 }

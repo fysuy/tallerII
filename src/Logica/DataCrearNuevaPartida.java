@@ -1,7 +1,6 @@
 package Logica;
 import java.io.Serializable;
 
-import Logica.Carta;
 
 public class DataCrearNuevaPartida implements Serializable {
 	private String codigo;

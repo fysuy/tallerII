@@ -1,11 +1,8 @@
 package Logica;
 
 import java.io.Serializable;
-import java.rmi.RemoteException;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.TreeMap;
-import java.util.Vector;
 
 import Excepciones.HayPartidasIniciadasException;
 import Excepciones.PartidaNoExisteException;

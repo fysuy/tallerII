@@ -127,18 +127,25 @@ public class Facade implements IFacadeLogica {
 		return cartas.hayCartas(cartas);
 	}
 
-	public Jugador darCarta(Jugador jugador){
+	public DataJugador darCarta(DataJugador jugador){
 		return cartas.darCarta(jugador);
 	}
 	
-	 public DataPartida[] listarPartidas() {
-         
+	 public DataPartida[] listarPartidas() {     
          DataPartida arregloPartidas[] = partidas.listarPartidas();
-     return arregloPartidas;
+         return arregloPartidas;
 	 }
 	 
 	 public DataListarJugadoresPartidas[] listarJugadores(){
-	         DataListarJugadoresPartidas arregloJugadores[] = jugadores.listarJugadores();
-	         return arregloJugadores;
+         DataListarJugadoresPartidas arregloJugadores[] = jugadores.listarJugadores();
+         return arregloJugadores;
 	 }
+	 public DataJugador[] obtenerJugadores(){
+         DataJugador arregloJugadores[] = jugadores.obtenerJugadores();
+         return arregloJugadores;
+	 }
+	@Override
+	public Jugador darCarta(Jugador jugador) {
+		return null;
+	}
 }

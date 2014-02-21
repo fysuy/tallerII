@@ -1,7 +1,6 @@
 package Logica;
 import java.io.Serializable;
 
-import Logica.Carta;
 
 public class DataJugador implements Serializable {
 	private int numero;
@@ -24,6 +23,10 @@ public class DataJugador implements Serializable {
 	
 	public Cartas getCartas() {
 		return cartas;
+	}
+	
+	public void setCartas(Cartas cartas){
+		this.cartas = cartas;
 	}
 
 	public int getNumero() {
