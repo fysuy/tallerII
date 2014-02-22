@@ -16,10 +16,21 @@ public class Facade implements IFacadeLogica {
 	private Cartas cartas;
 	private Jugadores jugadores;
 	
-	private Facade()throws RemoteException {
-		partidas= new Partidas();
-		cartas= new Cartas();
-		jugadores= new Jugadores();
+	private Facade() throws RemoteException {
+		partidas = new Partidas();
+		cartas = new Cartas();
+
+//     	PARA TESTEAR EL RECUPERAR DATOS
+//		try {
+//			Respaldo respaldo = new Respaldo();
+//			Datos datos = respaldo.Recuperar();
+//			
+//			partidas = datos.getPartidas();
+//			cartas = datos.getMazo();
+//			
+//		} catch (ClassNotFoundException | IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 	
 	//Se aplica el patron Singleton
