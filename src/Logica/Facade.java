@@ -3,10 +3,7 @@ package Logica;
 import java.io.IOException;
 import java.rmi.RemoteException;
 
-import Excepciones.CodigoPartidaRepetidoException;
-import Excepciones.PartidaInsuficientesJugadoresException;
-import Excepciones.PartidaNoExisteException;
-import Excepciones.HayPartidasIniciadasException;
+import Excepciones.*;
 import Persistencia.*;
 
 public class Facade implements IFacadeLogica {
@@ -159,4 +156,32 @@ public class Facade implements IFacadeLogica {
 	public Jugador darCarta(Jugador jugador) {
 		return null;
 	}
+	
+	//Req 5 - Iniciar turno de un jugador
+	public void IniciarTurnoJugador() throws PartidaNoHayEnCursoException
+	{
+		Partida partida = partidas.getPartidaEnCurso();
+		
+		if(partida == null)
+			throw new PartidaNoHayEnCursoException("No hay ninguna partida actualmente en curso");
+		
+		//Notificar a los jugadores de la partida que actualizen la visualizacion de las cartas.
+	}
+	
+	//Req 6 - Loguearse para jugar
+	public boolean Login(String nombreJugador) throws 
+		PartidaNoHayEnCursoException,
+		LoginNombreException
+	{
+		Partida partida = partidas.getPartidaEnCurso();
+		if(partida == null)
+			throw new PartidaNoHayEnCursoException("No hay ninguna partida actualmente en curso");
+		
+		Jugador jugador = partida.getJugadores().findByName(nombreJugador);
+		if(jugador == null)
+			throw new LoginNombreException("No existe ningun jugador con el nombre " + nombreJugador + " en la partida actual");
+			
+		return true;
+	}
+	
 }

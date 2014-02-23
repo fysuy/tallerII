@@ -31,7 +31,7 @@ public class Partidas implements Serializable {
 			for(int i = 0; i < dataCrearNuevaPartida.getArregloNombres().length; i++)
 			{
 				Jugador jugador = new Jugador(i + 1, dataCrearNuevaPartida.getArregloNombres()[i], 0, false, false, null);
-				jugadores.insert(i, jugador);
+				jugadores.insert(jugador);
 			}
 			Partida partida = new Partida(clave, null, null, false, false, jugadores);
 			tm.put(clave, partida); 
@@ -99,13 +99,12 @@ public class Partidas implements Serializable {
 
 			return existe;
 		}
-		
-		
+				
 		public boolean esVacio(){
 			return(tm.isEmpty());
 		}
 		
-		 public DataPartida[] listarPartidas()
+		public DataPartida[] listarPartidas()
          {
                  DataPartida arregloPartidas[] = new DataPartida[tm.size()];
                  Iterator <Partida> iteradorPartidas = tm.values().iterator();
@@ -121,4 +120,19 @@ public class Partidas implements Serializable {
                  return arregloPartidas;
          }
 
+		public Partida getPartidaEnCurso()
+		{
+			Iterator <Partida> iteradorPartidas = tm.values().iterator();
+			Partida result = null;
+			boolean found = false;
+			
+			while(iteradorPartidas.hasNext() && !found)
+			{
+				result = iteradorPartidas.next();
+				if(result.isEnCurso())
+					found = true;
+			}
+			
+			return result;
+		}
 }

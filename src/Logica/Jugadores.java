@@ -15,22 +15,38 @@ public class Jugadores implements Serializable {
 			ht = new Hashtable<Integer, Jugador>(); 
 		}
 		
-		public boolean member (int clave)
+		public boolean member (Integer clave)
 		{ 
 			return ht.containsKey(clave); 
 		}
 		
-		public Jugador find (int clave)
+		public Jugador find (Integer clave)
 		{ 
 			return ht.get(clave); 
 		}
 		
-		public void insert (int clave, Jugador jugador)
+		public Jugador findByName (String nombre)
 		{ 
-			ht.put(clave, jugador); 
+			Iterator<Jugador> iter = ht.values().iterator();
+			Jugador jugador = null;
+			boolean found = false;
+			
+			while(iter.hasNext() && !found)
+			{
+				jugador = iter.next();
+				if(jugador.getNombre() == nombre)
+					found = true;
+			}
+			
+			return jugador;
 		}
 		
-		public void delete (int clave)
+		public void insert (Jugador jugador)
+		{ 
+			ht.put(jugador.getNumero(), jugador); 
+		}
+		
+		public void delete (String clave)
 		{ 
 			ht.remove(clave);
 		}
@@ -78,7 +94,7 @@ public class Jugadores implements Serializable {
 			while (iteradorJugadores.hasNext())
 			{ 
 				Jugador jugador = iteradorJugadores.next();
-				arregloJugadores[i] = new DataJugador(jugador.getNumero(),jugador.getNombre(), jugador.getPuntos(), jugador.isEnturno(), jugador.isEliminado(), jugador.getCartas());
+				arregloJugadores[i] = new DataJugador(jugador.getNumero(), jugador.getNombre(), jugador.getPuntos(), jugador.isEnturno(), jugador.isEliminado(), jugador.getCartas());
 				i++;
 			}
 			

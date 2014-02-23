@@ -110,6 +110,22 @@ public class Main {
 			fac = Facade.getInstance();
 			fac.RespaldarDatos();
 		} catch (Exception e) { e.printStackTrace(); }
+		
+		System.out.println("Requerimiento 5 Iniciar turno de jugador");
+		System.out.println("===============================");
+		
+		try {
+			fac = Facade.getInstance();
+			fac.IniciarTurnoJugador();
+		} catch (Exception e) { e.printStackTrace(); }
+		
+		System.out.println("Requerimiento 6 Loguearse");
+		System.out.println("===============================");
+		
+		try {
+			fac = Facade.getInstance();
+			fac.Login("Pepe");
+		} catch (Exception e) { e.printStackTrace(); }
 
 		
 		System.out.println("Requerimiento 7 Visualizar cartas");
