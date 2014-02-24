@@ -14,7 +14,7 @@ public class Facade extends UnicastRemoteObject implements IFacade {
 	private Cartas cartas;
 	private Jugadores jugadores;
 	
-	private Facade() throws RemoteException {
+	public Facade() throws RemoteException {
 		partidas = new Partidas();
 		cartas = new Cartas();
 
@@ -59,7 +59,7 @@ public class Facade extends UnicastRemoteObject implements IFacade {
     	return arregloCodigosPartidas;
 	}
 	
-	public void IniciarNuevaPartida(String codigo) throws PartidaNoExisteException, HayPartidasIniciadasException {
+	public void IniciarNuevaPartida(String codigo) throws RemoteException, PartidaNoExisteException, HayPartidasIniciadasException {
 
 	    if(partidas.HayAlgunaPartidaIniciada())
 	    	throw new HayPartidasIniciadasException("Ya existe una partida iniciada");		    	
@@ -78,7 +78,7 @@ public class Facade extends UnicastRemoteObject implements IFacade {
 		}	    		 		
 	}
 	
-	public void RespaldarDatos()
+	public void RespaldarDatos() throws RemoteException
 	{
 		try 
 		{
@@ -108,7 +108,7 @@ public class Facade extends UnicastRemoteObject implements IFacade {
 		
 		Jugador jugador = partida.getJugadores().findByName(nombreJugador);
 		if(jugador == null)
-			throw new LoginNombreException("No existe ningun jugador con el nombre " + nombreJugador + " en la partida actual");
+			throw new LoginNombreException("No existe ningun jugador con el nombre "+nombreJugador+" en la partida actual");
 			
 		return true;
 	}
