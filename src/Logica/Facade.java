@@ -2,11 +2,12 @@ package Logica;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
 import Excepciones.*;
 import Persistencia.*;
 
-public class Facade implements IFacadeLogica {
+public class Facade extends UnicastRemoteObject implements IFacade {
 	
 	private static Facade instance = null;
 	private Partidas partidas;
@@ -30,7 +31,6 @@ public class Facade implements IFacadeLogica {
 //		}
 	}
 	
-	//Se aplica el patron Singleton
 	public static Facade getInstance() throws Exception {
 		if(instance == null)
 			instance = new Facade();
@@ -41,7 +41,8 @@ public class Facade implements IFacadeLogica {
 	public void CrearNuevaPartida(DataCrearNuevaPartida dataCrearNuevaPartida) 
 			throws HayPartidasIniciadasException, 
 			CodigoPartidaRepetidoException,
-			PartidaInsuficientesJugadoresException {
+			PartidaInsuficientesJugadoresException,
+			RemoteException {
 		
 		if(partidas.HayAlgunaPartidaIniciada())
 			throw new HayPartidasIniciadasException("La partida ya esta iniciada");
@@ -53,68 +54,28 @@ public class Facade implements IFacadeLogica {
 		partidas.insert(dataCrearNuevaPartida.getCodigo(), dataCrearNuevaPartida);
 	}
 	
-	public Partida ObtenerPartida(String clave) throws PartidaNoExisteException{
-		return partidas.find(clave);
-	}
-	
-	public boolean NoHayPartidas(){
-		return partidas.esVacio();
-	}
-
-	public boolean ExistePartida(String clave){
-		return partidas.member(clave);
-	}
-
 	public String[] listarCodigosPartidas() {
-		
 		String arregloCodigosPartidas[] = partidas.listarCodigosPartidas();
     	return arregloCodigosPartidas;
 	}
-
 	
 	public void IniciarNuevaPartida(String codigo) throws PartidaNoExisteException, HayPartidasIniciadasException {
 
-	    if(HayAlgunaPartidaIniciada())
-	    {
+	    if(partidas.HayAlgunaPartidaIniciada())
 	    	throw new HayPartidasIniciadasException("Ya existe una partida iniciada");		    	
-	    }
-	    else
-	    {
-	    	try {
-				partidas.IniciarNuevaPartida(codigo);
-				boolean mazoCreado = MazoCreado();
-				if(mazoCreado)
-				{
-					BarajarCartas();
-				}
-				else
-				{
-					BajarCartasAlMazo();
-					BarajarCartas();
-				}
-			} 	
-			 catch (PartidaNoExisteException e) {
-					
-				throw new PartidaNoExisteException("El codigo de partida no existe");
-			}	    	
-	    }		 		
-	}
-	public void BarajarCartas() {
-		
-		cartas.BarajarCartas();
-		
-	}
-	public boolean HayAlgunaPartidaIniciada() {
+
+    	try {
+			partidas.IniciarNuevaPartida(codigo);
+			boolean mazoCreado = cartas.MazoCreado();
+			if(!mazoCreado)
+				cartas.BajarCartasAlMazo();
+			
+			cartas.BarajarCartas();
+		} 	
+    	catch (PartidaNoExisteException e) {
 				
-		return partidas.HayAlgunaPartidaIniciada();
-	}
-	public void BajarCartasAlMazo() {
-		cartas.BajarCartasAlMazo();
-	}
-	
-	public DataVisualizarCartas[] VisualizarCartas() {
-		DataVisualizarCartas arregloDataVisualizarCartas[] = jugadores.VisualizarCartas();
-    	return arregloDataVisualizarCartas;
+			throw new PartidaNoExisteException("El codigo de partida no existe");
+		}	    		 		
 	}
 	
 	public void RespaldarDatos()
@@ -127,37 +88,6 @@ public class Facade implements IFacadeLogica {
 		catch (IOException e) { e.printStackTrace(); }
 	}
 	
-	public boolean MazoCreado() {
-		return cartas.MazoCreado();
-	}
-
-	public boolean quedanCartas(){
-		return cartas.hayCartas(cartas);
-	}
-
-	public DataJugador darCarta(DataJugador jugador){
-		return cartas.darCarta(jugador);
-	}
-	
-	 public DataPartida[] listarPartidas() {     
-         DataPartida arregloPartidas[] = partidas.listarPartidas();
-         return arregloPartidas;
-	 }
-	 
-	 public DataListarJugadoresPartidas[] listarJugadores(){
-         DataListarJugadoresPartidas arregloJugadores[] = jugadores.listarJugadores();
-         return arregloJugadores;
-	 }
-	 public DataJugador[] obtenerJugadores(){
-         DataJugador arregloJugadores[] = jugadores.obtenerJugadores();
-         return arregloJugadores;
-	 }
-	@Override
-	public Jugador darCarta(Jugador jugador) {
-		return null;
-	}
-	
-	//Req 5 - Iniciar turno de un jugador
 	public void IniciarTurnoJugador() throws PartidaNoHayEnCursoException
 	{
 		Partida partida = partidas.getPartidaEnCurso();
@@ -168,10 +98,9 @@ public class Facade implements IFacadeLogica {
 		//Notificar a los jugadores de la partida que actualizen la visualizacion de las cartas.
 	}
 	
-	//Req 6 - Loguearse para jugar
 	public boolean Login(String nombreJugador) throws 
-		PartidaNoHayEnCursoException,
-		LoginNombreException
+	PartidaNoHayEnCursoException,
+	LoginNombreException
 	{
 		Partida partida = partidas.getPartidaEnCurso();
 		if(partida == null)
@@ -184,4 +113,70 @@ public class Facade implements IFacadeLogica {
 		return true;
 	}
 	
+	public DataVisualizarCartas[] VisualizarCartas() {
+		DataVisualizarCartas arregloDataVisualizarCartas[] = jugadores.VisualizarCartas();
+    	return arregloDataVisualizarCartas;
+	}
+	
+	public DataPartida[] listarPartidas() {     
+	    DataPartida arregloPartidas[] = partidas.listarPartidas();
+	    return arregloPartidas;
+	}
+	 
+	public DataListarJugadoresPartidas[] listarJugadores() {
+	    DataListarJugadoresPartidas arregloJugadores[] = jugadores.listarJugadores();
+	    return arregloJugadores;
+	}
+	
+	public Partida ObtenerPartida(String clave) throws PartidaNoExisteException {
+		return partidas.find(clave);
+	}
+	
+//	public boolean NoHayPartidas(){
+//		return partidas.esVacio();
+//	}
+
+//	public boolean ExistePartida(String clave){
+//		return partidas.member(clave);
+//	}
+	
+//	public void BarajarCartas() {
+//		
+//		cartas.BarajarCartas();
+//		
+//	}
+//	public boolean HayAlgunaPartidaIniciada() {
+//				
+//		return partidas.HayAlgunaPartidaIniciada();
+//	}
+//	public void BajarCartasAlMazo() {
+//		cartas.BajarCartasAlMazo();
+//	}
+	
+
+	
+
+	
+//	public boolean MazoCreado() {
+//		return cartas.MazoCreado();
+//	}
+//
+//	public boolean quedanCartas(){
+//		return cartas.hayCartas(cartas);
+//	}
+//
+//	public DataJugador darCarta(DataJugador jugador){
+//		return cartas.darCarta(jugador);
+//	}
+	
+
+	 public DataJugador[] obtenerJugadores(){
+         DataJugador arregloJugadores[] = jugadores.obtenerJugadores();
+         return arregloJugadores;
+	 }
+	 
+//	@Override
+//	public Jugador darCarta(Jugador jugador) {
+//		return null;
+//	}	
 }
