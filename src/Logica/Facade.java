@@ -2,18 +2,19 @@ package Logica;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
 import Excepciones.*;
 import Persistencia.*;
 
-public class Facade implements IFacadeLogica {
+public class Facade extends UnicastRemoteObject implements IFacadeLogica {
 	
 	private static Facade instance = null;
 	private Partidas partidas;
 	private Cartas cartas;
 	private Jugadores jugadores;
 	
-	private Facade() throws RemoteException {
+	public Facade() throws RemoteException {
 		partidas = new Partidas();
 		cartas = new Cartas();
 
@@ -31,7 +32,7 @@ public class Facade implements IFacadeLogica {
 	}
 	
 	//Se aplica el patron Singleton
-	public static Facade getInstance() throws Exception {
+	public static Facade getInstance() throws RemoteException, Exception {
 		if(instance == null)
 			instance = new Facade();
 		
@@ -39,7 +40,7 @@ public class Facade implements IFacadeLogica {
 	}
 
 	public void CrearNuevaPartida(DataCrearNuevaPartida dataCrearNuevaPartida) 
-			throws HayPartidasIniciadasException, 
+			throws RemoteException, HayPartidasIniciadasException, 
 			CodigoPartidaRepetidoException,
 			PartidaInsuficientesJugadoresException {
 		
@@ -53,26 +54,26 @@ public class Facade implements IFacadeLogica {
 		partidas.insert(dataCrearNuevaPartida.getCodigo(), dataCrearNuevaPartida);
 	}
 	
-	public Partida ObtenerPartida(String clave) throws PartidaNoExisteException{
+	public Partida ObtenerPartida(String clave) throws RemoteException, PartidaNoExisteException{
 		return partidas.find(clave);
 	}
 	
-	public boolean NoHayPartidas(){
+	public boolean NoHayPartidas() throws RemoteException{
 		return partidas.esVacio();
 	}
 
-	public boolean ExistePartida(String clave){
+	public boolean ExistePartida(String clave) throws RemoteException{
 		return partidas.member(clave);
 	}
 
-	public String[] listarCodigosPartidas() {
+	public String[] listarCodigosPartidas() throws RemoteException {
 		
 		String arregloCodigosPartidas[] = partidas.listarCodigosPartidas();
     	return arregloCodigosPartidas;
 	}
 
 	
-	public void IniciarNuevaPartida(String codigo) throws PartidaNoExisteException, HayPartidasIniciadasException {
+	public void IniciarNuevaPartida(String codigo) throws RemoteException, PartidaNoExisteException, HayPartidasIniciadasException {
 
 	    if(HayAlgunaPartidaIniciada())
 	    {
@@ -99,12 +100,12 @@ public class Facade implements IFacadeLogica {
 			}	    	
 	    }		 		
 	}
-	public void BarajarCartas() {
+	public void BarajarCartas() throws RemoteException{
 		
 		cartas.BarajarCartas();
 		
 	}
-	public boolean HayAlgunaPartidaIniciada() {
+	public boolean HayAlgunaPartidaIniciada() throws RemoteException{
 				
 		return partidas.HayAlgunaPartidaIniciada();
 	}
@@ -112,12 +113,12 @@ public class Facade implements IFacadeLogica {
 		cartas.BajarCartasAlMazo();
 	}
 	
-	public DataVisualizarCartas[] VisualizarCartas() {
+	public DataVisualizarCartas[] VisualizarCartas() throws RemoteException{
 		DataVisualizarCartas arregloDataVisualizarCartas[] = jugadores.VisualizarCartas();
     	return arregloDataVisualizarCartas;
 	}
 	
-	public void RespaldarDatos()
+	public void RespaldarDatos() throws RemoteException
 	{
 		try 
 		{
@@ -127,38 +128,38 @@ public class Facade implements IFacadeLogica {
 		catch (IOException e) { e.printStackTrace(); }
 	}
 	
-	public boolean MazoCreado() {
+	public boolean MazoCreado() throws RemoteException {
 		return cartas.MazoCreado();
 	}
 
-	public boolean quedanCartas(){
+	public boolean quedanCartas() throws RemoteException{
 		return cartas.hayCartas(cartas);
 	}
 
-	public DataJugador darCarta(DataJugador jugador){
+	public DataJugador darCarta(DataJugador jugador) throws RemoteException{
 		return cartas.darCarta(jugador);
 	}
 	
-	 public DataPartida[] listarPartidas() {     
+	 public DataPartida[] listarPartidas() throws RemoteException{     
          DataPartida arregloPartidas[] = partidas.listarPartidas();
          return arregloPartidas;
 	 }
 	 
-	 public DataListarJugadoresPartidas[] listarJugadores(){
+	 public DataListarJugadoresPartidas[] listarJugadores() throws RemoteException{
          DataListarJugadoresPartidas arregloJugadores[] = jugadores.listarJugadores();
          return arregloJugadores;
 	 }
-	 public DataJugador[] obtenerJugadores(){
+	 public DataJugador[] obtenerJugadores() throws RemoteException{
          DataJugador arregloJugadores[] = jugadores.obtenerJugadores();
          return arregloJugadores;
 	 }
 	@Override
-	public Jugador darCarta(Jugador jugador) {
+	public Jugador darCarta(Jugador jugador) throws RemoteException{
 		return null;
 	}
 	
 	//Req 5 - Iniciar turno de un jugador
-	public void IniciarTurnoJugador() throws PartidaNoHayEnCursoException
+	public void IniciarTurnoJugador() throws RemoteException, PartidaNoHayEnCursoException
 	{
 		Partida partida = partidas.getPartidaEnCurso();
 		
@@ -169,9 +170,7 @@ public class Facade implements IFacadeLogica {
 	}
 	
 	//Req 6 - Loguearse para jugar
-	public boolean Login(String nombreJugador) throws 
-		PartidaNoHayEnCursoException,
-		LoginNombreException
+	public boolean Login(String nombreJugador) throws RemoteException, PartidaNoHayEnCursoException, LoginNombreException
 	{
 		Partida partida = partidas.getPartidaEnCurso();
 		if(partida == null)
@@ -179,7 +178,7 @@ public class Facade implements IFacadeLogica {
 		
 		Jugador jugador = partida.getJugadores().findByName(nombreJugador);
 		if(jugador == null)
-			throw new LoginNombreException("No existe ningun jugador con el nombre " + nombreJugador + " en la partida actual");
+			throw new LoginNombreException("No existe ningun jugador con el nombre "+nombreJugador+" en la partida actual");
 			
 		return true;
 	}

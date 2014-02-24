@@ -1,6 +1,7 @@
 package Logica;
 
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 import Excepciones.CodigoPartidaRepetidoException;
 import Excepciones.Exceptiones;
@@ -14,16 +15,16 @@ public interface IFacadeLogica extends Remote{
 	public void CrearNuevaPartida(DataCrearNuevaPartida dataCrearNuevaPartida) 
 			throws HayPartidasIniciadasException, 
 			CodigoPartidaRepetidoException,
-			PartidaInsuficientesJugadoresException;
-	public Partida ObtenerPartida(String clave) throws PartidaNoExisteException;
-	public boolean NoHayPartidas();
-	public boolean ExistePartida(String clave);
-	public void IniciarNuevaPartida(String codigo) throws PartidaNoExisteException, HayPartidasIniciadasException;
-	public void BarajarCartas();
-	public boolean HayAlgunaPartidaIniciada();
-	public void BajarCartasAlMazo();
-	public DataVisualizarCartas[] VisualizarCartas();
-	public boolean MazoCreado(); 
-	public boolean quedanCartas();
-	public Jugador darCarta(Jugador jugador);
+			PartidaInsuficientesJugadoresException, RemoteException;
+	public Partida ObtenerPartida(String clave) throws PartidaNoExisteException, RemoteException;
+	public boolean NoHayPartidas() throws RemoteException;
+	public boolean ExistePartida(String clave) throws RemoteException;
+	public void IniciarNuevaPartida(String codigo) throws RemoteException, PartidaNoExisteException, HayPartidasIniciadasException;
+	public void BarajarCartas() throws RemoteException;
+	public boolean HayAlgunaPartidaIniciada() throws RemoteException;
+	public void BajarCartasAlMazo() throws RemoteException;
+	public DataVisualizarCartas[] VisualizarCartas() throws RemoteException;
+	public boolean MazoCreado() throws RemoteException; 
+	public boolean quedanCartas()throws RemoteException;
+	public Jugador darCarta(Jugador jugador) throws RemoteException;
 }
