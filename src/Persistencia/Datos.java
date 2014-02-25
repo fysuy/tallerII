@@ -6,6 +6,8 @@ import Logica.*;
 
 public class Datos implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	public Datos(Partidas partidas, Cartas mazo) {
 		super();
 		this._partidas = partidas;

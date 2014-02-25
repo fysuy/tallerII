@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.util.Random;
 
 public class Cartas implements Serializable {
-	
+
+	private static final long serialVersionUID = 1L;
 	static final int cantidadCartas = 52;
 	Carta arregloCartas[];
 	int tope;

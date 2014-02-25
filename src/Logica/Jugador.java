@@ -1,9 +1,8 @@
 package Logica;
 import java.io.Serializable;
 
-import Logica.Carta;
-
 public class Jugador implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private int numero;
 	private String nombre;
 	private int puntos;

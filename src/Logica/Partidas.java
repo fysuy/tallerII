@@ -3,12 +3,11 @@ package Logica;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.TreeMap;
-
-import Excepciones.HayPartidasIniciadasException;
 import Excepciones.PartidaNoExisteException;
 
 public class Partidas implements Serializable {
-	
+
+	private static final long serialVersionUID = 1L;
 		private TreeMap<String, Partida> tm; 	
 		public Partidas()
 		{ 			
@@ -69,8 +68,6 @@ public class Partidas implements Serializable {
 		}
 
 		public boolean HayAlgunaPartidaIniciada() {
-
-			DataPartida arregloPartidas[] = new DataPartida[tm.size()]; 
 			Iterator <Partida> iteradorPartidas = tm.values().iterator();
 			boolean hay = false;
 

@@ -9,6 +9,10 @@ import Persistencia.*;
 
 public class Facade extends UnicastRemoteObject implements IFacadeLogica {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static Facade instance = null;
 	private Partidas partidas;
 	private Cartas cartas;
