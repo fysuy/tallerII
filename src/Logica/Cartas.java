@@ -89,16 +89,15 @@ public class Cartas implements Serializable {
 		this.tope--;
 	}
 	
-	public DataJugador darCarta(DataJugador jugador){
-		//obtengo la carta de arriba y la borro del mazo
+	public int darCarta(Jugador jugador){
+
 		Carta carta = arregloCartas[this.tope];
 		borrarCarta();
 		Cartas cartas = jugador.getCartas();
-		//asigno la carta al jugador
 		cartas.tope++;
 		cartas.arregloCartas[cartas.tope] = carta;
-		jugador.setCartas(cartas);
-		return jugador;
+				
+		return carta.getValorEnJuego();
 	}
 	
 

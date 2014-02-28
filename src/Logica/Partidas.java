@@ -3,6 +3,7 @@ package Logica;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.TreeMap;
+
 import Excepciones.PartidaNoExisteException;
 
 public class Partidas implements Serializable {
@@ -132,4 +133,73 @@ public class Partidas implements Serializable {
 			
 			return result;
 		}
+		
+		public void MarcarProximoEnTurno(Partida partidaEnCusrso) {
+
+			Jugadores jugadores = partidaEnCusrso.getJugadores();
+			DataJugador arregloDataJugadores[] = jugadores.obtenerJugadores();
+			Jugador jugador;
+			
+			boolean encontre = false, salir = false;
+			int numeroJugador = partidaEnCusrso.getProximoJugador().getNumero();
+			int i = numeroJugador;
+			
+			while(!encontre)
+			{
+				if(arregloDataJugadores.length == numeroJugador)
+					i = 0;
+				else
+					i++;
+				
+				if(!arregloDataJugadores[i].isEliminado())
+				{
+					if(arregloDataJugadores[i].getNumero() == numeroJugador)
+						salir = true;
+					else
+					{
+						jugador = new Jugador(
+								arregloDataJugadores[i].getNumero(), 
+								arregloDataJugadores[i].getNombre(), 
+								arregloDataJugadores[i].getPuntos(), 
+								arregloDataJugadores[i].isEnturno(), 
+								arregloDataJugadores[i].isEliminado(), 
+								arregloDataJugadores[i].getCartas());
+						jugador.setEnturno(true);
+						encontre = true;
+					}					
+			    }
+			
+		    }
+	   }
+	   public int CantidadJugadoresNoEliminados(DataPartida dataPartidaActual){
+		   
+		   Jugadores jugadores = dataPartidaActual.getJugadores();		   
+		   DataJugador dataJugador[] = jugadores.obtenerJugadores();
+		   
+		   int cantidad = 0;
+		   for( int i=0; i<dataJugador.length ; i ++ )
+			{ 
+				if(!dataJugador[i].isEliminado())
+				{
+					cantidad++;
+				}
+			} 		   
+		   return cantidad;
+	   }
+
+	public boolean TieneMayorPuntaje(DataPartida dataPartidaActual, int puntos) {
+		  
+		Jugadores jugadores = dataPartidaActual.getJugadores();		   
+		DataJugador dataJugador[] = jugadores.obtenerJugadores();
+		
+		boolean esMayorPuntaje = true;
+		for( int i=0; i<dataJugador.length ; i ++ )
+		{ 
+			if(dataJugador[i].getPuntos() < 21 && dataJugador[i].getPuntos() > puntos)
+			{
+				esMayorPuntaje = false;
+			}
+		} 		   
+		return esMayorPuntaje;
+	}
 }

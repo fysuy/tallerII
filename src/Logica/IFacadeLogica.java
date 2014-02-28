@@ -2,6 +2,7 @@ package Logica;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+
 import Excepciones.CodigoPartidaRepetidoException;
 import Excepciones.HayPartidasIniciadasException;
 import Excepciones.PartidaInsuficientesJugadoresException;
@@ -24,5 +25,5 @@ public interface IFacadeLogica extends Remote{
 	public DataVisualizarCartas[] VisualizarCartas() throws RemoteException;
 	public boolean MazoCreado() throws RemoteException; 
 	public boolean quedanCartas()throws RemoteException;
-	public Jugador darCarta(Jugador jugador) throws RemoteException;
+	public void DarCarta(Jugador jugador) throws RemoteException;
 }

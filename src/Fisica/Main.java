@@ -1,9 +1,11 @@
 package Fisica;
 
 import java.util.ArrayList;
+
 import Logica.DataCrearNuevaPartida;
 import Logica.DataListarJugadoresPartidas;
 import Logica.DataPartida;
+import Logica.DataRealizarJugada;
 import Logica.DataVisualizarCartas;
 import Logica.Facade;
 import Logica.Jugador;
@@ -150,92 +152,23 @@ public class Main {
 
 		
 
-		/**************************** REQUERIMIENTO 8 **************************/
-		// lo hice que nos den el codigo de la partida para buscar mas rapido porque no se como recorrer todo el arbol en java...
-		// cualquier cosa lo cambiamos
-		codigo = "A12";
+		System.out.println("Requerimiento 8 Realizar jugada");
+		System.out.println("=================================");
+		
 		try {
 			fac = Facade.getInstance();
-			Partida actual = fac.ObtenerPartida(codigo);
-			Jugador jugador = null;
-			boolean encontre = false;
-			int noEliminados = 0;
-			//recorro hasta encontrar jugador en turno
-			while(!encontre){
-				jugador = actual.getProximoJugador();
-				if(!jugador.isEliminado())
-					noEliminados++;
-				if(jugador.isEnturno())
-					encontre = true;
-			}
 			
-			if(noEliminados > 1){
-				if(fac.quedanCartas())
-				{
-					boolean quiereCarta = true;
-					System.out.println("Desea recibir una carta?");
-					if(quiereCarta == true){
-						jugador = fac.darCarta(jugador);
-						int sumaCartas = 0;
-						/******** HACER SUMAR CARTAS ***********/
-						if(sumaCartas == 21){
-							actual.setEventualGanador(jugador);
-							actual.setFinalizada(true);
-						}
-						else if(sumaCartas > 21){
-							jugador.setEliminado(true);
-							actual.setFinalizada(true);
-						}
-					}
-					else{
-						Jugador aux = actual.getProximoJugador();
-						boolean proximo = false;
-						while(proximo == false){
-							if(!aux.isEliminado()){
-								jugador = actual.getProximoJugador();
-								actual.setProximoJugador(jugador);
-								proximo = true;
-							}
-							else
-								aux = actual.getProximoJugador();
-						}
-					}
-						
-					
-				}
-			else{
-				int puntaje = 0;
-				int mayor = 0;
-				Jugador jug = actual.getProximoJugador();
-				Jugador ganador=null;
-				//recorro todos los jugadores
-				while(jugador != jug){
-					if(!jug.isEliminado())
-						/*******obtengo puntaje del jugador*******/
-						if(puntaje > mayor) //no hace falta controlar que sea menor que 21 porque se controla arriba al ser solo los NO eliminados
-							ganador = jug;
-						else
-							jug = actual.getProximoJugador();
-				}
-				actual.setEventualGanador(ganador);
-				actual.setFinalizada(true);
-			}
-				
-			}else{
-				actual.setEventualGanador(jugador);
-				actual.setFinalizada(true);
-			}
-				
-				
-		if(actual.isFinalizada())
-			fac.BajarCartasAlMazo();
+			DataPartida dataPartidaActual = fac.ObtenerDataPartidaEnCurso();
+			boolean pideCarta = true;
 			
-		
-		} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-		}
-		
+			//int cantidad = fac.CantidadJugadoresNoEliminados(dataPartidaActual);
+			if(fac.CantidadJugadoresNoEliminados(dataPartidaActual) > 1)
+			{
+				DataRealizarJugada dataRealizarJugada = new DataRealizarJugada(pideCarta, dataPartidaActual);
+				fac.RealizarJugada(dataRealizarJugada);
+			}		
+			
+		}catch (Exception e1) {e1.printStackTrace();}
 		
 		
 
