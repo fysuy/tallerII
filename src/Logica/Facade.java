@@ -3,9 +3,8 @@ package Logica;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-
 import Excepciones.*;
-import Persistencia.*;
+import Persistencia.Respaldo;
 
 public class Facade extends UnicastRemoteObject implements IFacadeLogica {
 	
