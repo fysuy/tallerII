@@ -1,6 +1,7 @@
 package PresentacionCliente;
 
-import java.util.Calendar;
+import java.rmi.RemoteException;
+
 import Logica.DataCrearNuevaPartida;
 import Logica.Facade;
 import Logica.IFacadeLogica;
@@ -24,4 +25,40 @@ public class ControladorNuevaPartida {
 		}
 		catch (Exception e) { e.printStackTrace(); }		
 	}
+	
+	public boolean HayPartidaIniciada(){
+		try {
+			fac = Facade.getInstance();
+			if(fac.HayAlgunaPartidaIniciada())
+				return true;
+			else
+				return false;
+		} 
+		catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	
+	public boolean ExistePartida(String codigo){ // HACERRRRRRRRRRRRRRRRRRR
+		try {
+			fac = Facade.getInstance();
+			if(fac.ExistePartida(codigo))
+				return true;
+			else
+				return false;
+		} 
+		catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	
+	
 }

@@ -23,55 +23,23 @@ public class BarraHerramientasJugadores extends JToolBar{
 		this.setRollover( true );
 		this.setFloatable( false );
 		
-		button1 = new JButton(hasStrings ? "Crear una nueva partida" : null, Utilidades.getIcon("Rojo"));
+		button1 = new JButton(hasStrings ? "Iniciar sesión" : null, Utilidades.getIcon("Rojo"));
 		button1.addActionListener(new ManejadorEventos());
-		button1.setToolTipText("Crear una nueva partida");
+		button1.setToolTipText("Iniciar sesión");
 		button1.setVerticalTextPosition( SwingConstants.BOTTOM );
 		button1.setHorizontalTextPosition( SwingConstants.CENTER );
 		this.add(button1);		
 		this.addSeparator();
 		
-		button2 = new JButton(hasStrings ? "Iniciar una nueva partida" : null, Utilidades.getIcon("Gris"));
+		button2 = new JButton(hasStrings ? "Realizar jugada" : null, Utilidades.getIcon("Gris"));
 		button2.addActionListener(new ManejadorEventos());
-		button2.setToolTipText("Iniciar una nueva partida");
+		button2.setToolTipText("Realizar jugada");
 		button2.setVerticalTextPosition( SwingConstants.BOTTOM );
 		button2.setHorizontalTextPosition( SwingConstants.CENTER );
 		this.add(button2);		
 		this.addSeparator();
 		
-		button3 = new JButton(hasStrings ? "Iniciar turno de un jugador" : null, Utilidades.getIcon("Celeste"));
-		button3.addActionListener(new ManejadorEventos());
-		button3.setToolTipText("Iniciar turno de un jugador");
-		button3.setVerticalTextPosition( SwingConstants.BOTTOM );
-		button3.setHorizontalTextPosition( SwingConstants.CENTER );
-		this.add(button3);		
-		this.addSeparator();
-		
-		button4 = new JButton(hasStrings ? "Listar partidas registradas" : null, Utilidades.getIcon("Corazon"));
-		button4.addActionListener(new ManejadorEventos());
-		button4.setToolTipText("Listar partidas registradas");
-		button4.setVerticalTextPosition( SwingConstants.BOTTOM );
-		button4.setHorizontalTextPosition( SwingConstants.CENTER );
-		this.add(button4);		
-		this.addSeparator();
-		
-		button5 = new JButton(hasStrings ? "Listar jugadores" : null, Utilidades.getIcon("Celeste"));
-		button5.addActionListener(new ManejadorEventos());
-		button5.setToolTipText("Listar jugadores de una partida");
-		button5.setVerticalTextPosition( SwingConstants.BOTTOM );
-		button5.setHorizontalTextPosition( SwingConstants.CENTER );
-		this.add(button5);		
-		this.addSeparator();
-		
-		button6 = new JButton(hasStrings ? "     Guardar    " : null, Utilidades.getIcon("Guardar"));
-		button6.addActionListener(new ManejadorEventos());
-		button6.setToolTipText("Guardar");
-		button6.setVerticalTextPosition( SwingConstants.BOTTOM );
-		button6.setHorizontalTextPosition( SwingConstants.CENTER );
-		this.add(button6);		
-		this.addSeparator();
-		
-		button7 = new JButton(hasStrings ? "  Configuración  " : null, Utilidades.getIcon("Configuracion"));
+		button7 = new JButton(hasStrings ? "  Configuración  " : null, Utilidades.getIcon("Config"));
 		button7.addActionListener(new ManejadorEventos());
 		button7.setToolTipText("Configuración");
 		button7.setVerticalTextPosition( SwingConstants.BOTTOM );
@@ -79,7 +47,7 @@ public class BarraHerramientasJugadores extends JToolBar{
 		this.add(button7);		
 		this.addSeparator();
 		
-		button8 = new JButton(hasStrings ? "      Salir      " : null, Utilidades.getIcon("kTrebol"));
+		button8 = new JButton(hasStrings ? "      Salir      " : null, Utilidades.getIcon("salir"));
 		button8.addActionListener(new ManejadorEventos());
 		button8.setToolTipText("Salir");
 		button8.setVerticalTextPosition( SwingConstants.BOTTOM );

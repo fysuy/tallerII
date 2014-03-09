@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 
 public class PanelCentral extends JPanel{
 
+	private static final long serialVersionUID = 1L;
 	private JPanel pan;
 	public PanelCentral() {
 		PanelCentralInicio panelCentralInicio = new PanelCentralInicio();
@@ -33,12 +34,12 @@ public class PanelCentral extends JPanel{
 				pan = partidasRegistradas.getPanel();
 				break;	
 			case 5:
-				//NuevaPartida nuevaPartida = new NuevaPartida();Listar jugadores de una partida
-				//pan = nuevaPartida.getPanel();
+				FrmListarJugadores listarJugadores = new FrmListarJugadores();
+				pan = listarJugadores.getPanel();
 				break;
 			case 6:
-				FrmRespaldarDatos guardarPartidas = new FrmRespaldarDatos();
-				pan = guardarPartidas.getPanel();
+				//IniciarPartida iniciarPartida = new IniciarPartida();Guardar
+				//pan = iniciarPartida.getPanel();
 				break;	
 			case 7:
 				//NuevaPartida nuevaPartida = new NuevaPartida();Configuracion

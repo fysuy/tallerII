@@ -1,28 +1,19 @@
 package PresentacionCliente;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JTable;
-import javax.swing.JScrollBar;
 import javax.swing.SwingConstants;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.border.MatteBorder;
 
@@ -30,17 +21,12 @@ import java.awt.Color;
 
 import javax.swing.border.TitledBorder;
 
-import Logica.Facade;
-import Logica.IFacadeLogica;
-
-import java.awt.SystemColor;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class FrmNuevaPartida extends JPanel {
 
+	private static final long serialVersionUID = 1L;
 	private JScrollPane scrollPane;
 	private JPanel contentPane;	
 	private JButton btnInsertar;
@@ -132,7 +118,16 @@ public class FrmNuevaPartida extends JPanel {
 		btnCrear = new JButton("Crear");
 		btnCrear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(textField.getText().trim().isEmpty() && tablaNuevaPartida.getRowCount() < 2)
+				String codigo = textField.getText().toString();
+				if(HayPartidaIniciada())
+				{
+					JOptionPane.showMessageDialog (null, "Ya hay una partida en curso", "Error", JOptionPane.ERROR_MESSAGE);
+					contentPane.removeAll();
+					contentPane.updateUI();				
+				}
+				else if(ExistePartida(codigo))
+					JOptionPane.showMessageDialog (null, "Ya existe una partida con dicho código", "Error", JOptionPane.ERROR_MESSAGE);
+				else if(textField.getText().trim().isEmpty() && tablaNuevaPartida.getRowCount() < 2)
 				{
 					buttonError1.setVisible(true);
 					buttonError2.setVisible(true);
@@ -211,11 +206,8 @@ public class FrmNuevaPartida extends JPanel {
 	}
 	
 	public void NuevaPartida (JTable table) {
-		
         //DefaultTableModel dtm = (DefaultTableModel) table.getModel();
-	    
 		String codigoPartida = textField.getText();
-		
 		int nRow = modeloNombres.getRowCount();
 	    String[] arrayNombres = new String[nRow];
 	    for (int i = 0 ; i < nRow ; i++)
@@ -223,7 +215,6 @@ public class FrmNuevaPartida extends JPanel {
 	    
 	    controladorNuevaPartida = new ControladorNuevaPartida();
 	    controladorNuevaPartida.NuevaPartida(codigoPartida, arrayNombres);
-	    
 	   /* 
 	    System.out.println("Listo nuevamente las partidas");
 		System.out.println("=============================");
@@ -241,6 +232,16 @@ public class FrmNuevaPartida extends JPanel {
 		} 
 		catch (Exception e) { e.printStackTrace(); }
 		*/
+	}
+	
+	public boolean HayPartidaIniciada(){
+		controladorNuevaPartida = new ControladorNuevaPartida();
+		return controladorNuevaPartida.HayPartidaIniciada();
+	}
+	
+	public boolean ExistePartida(String codigo){
+		controladorNuevaPartida = new ControladorNuevaPartida();
+		return controladorNuevaPartida.ExistePartida(codigo);
 	}
 	
 	public JPanel getPanel(){		

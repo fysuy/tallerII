@@ -2,13 +2,10 @@ package PresentacionCliente;
 
 import java.awt.Cursor;
 import java.awt.Font;
-import java.awt.event.MouseListener;
 import java.net.URL;
-
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 

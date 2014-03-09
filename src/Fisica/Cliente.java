@@ -234,7 +234,7 @@ public class Cliente {
 					fac = Facade.getInstance();
 					if(!fac.ExistePartida(codigo))
 						System.out.println("No existe ninguna partida con dicho codigo");
-					else
+					/*else
 					{
 						DataListarJugadoresPartidas arregloJugadores[] = fac.listarJugadores();
 						for( int i=0; i<arregloJugadores.length; i++){ 
@@ -245,7 +245,7 @@ public class Cliente {
 							System.out.println("Puntaje: " + arregloJugadores[i].getPuntos());
 						}
 						
-					}
+					}*/
 					
 				} catch (Exception e) {
 					e.printStackTrace();

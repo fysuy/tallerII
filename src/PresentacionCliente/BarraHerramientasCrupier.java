@@ -71,7 +71,7 @@ public class BarraHerramientasCrupier extends JToolBar{
 		this.add(button6);		
 		this.addSeparator();
 		
-		button7 = new JButton(hasStrings ? "  Configuración  " : null, Utilidades.getIcon("Configuracion"));
+		button7 = new JButton(hasStrings ? "  Configuración  " : null, Utilidades.getIcon("Config"));
 		button7.addActionListener(new ManejadorEventos());
 		button7.setToolTipText("Configuración");
 		button7.setVerticalTextPosition( SwingConstants.BOTTOM );
@@ -79,7 +79,7 @@ public class BarraHerramientasCrupier extends JToolBar{
 		this.add(button7);		
 		this.addSeparator();
 		
-		button8 = new JButton(hasStrings ? "      Salir      " : null, Utilidades.getIcon("kTrebol"));
+		button8 = new JButton(hasStrings ? "      Salir      " : null, Utilidades.getIcon("salir"));
 		button8.addActionListener(new ManejadorEventos());
 		button8.setToolTipText("Salir");
 		button8.setVerticalTextPosition( SwingConstants.BOTTOM );

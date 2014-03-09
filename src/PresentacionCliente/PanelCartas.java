@@ -1,17 +1,11 @@
 package PresentacionCliente;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.rmi.RemoteException;
-
-import javax.swing.JButton;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
 import org.jdesktop.swingx.JXTaskPane;
-
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
@@ -22,7 +16,7 @@ public class PanelCartas extends JXTaskPane{
 	private JTable tablaCartas;
 	private DefaultTableModel modeloCartas;
 	
-	public PanelCartas(FrmPrincipalJugadores ventana, String titulo) {
+	public PanelCartas(FrmPrincipalJugadores ventana, String titulo){//, Cartas cartas) {
 		
 		this.ventana = ventana;
 		this.setTitle(titulo);
@@ -35,9 +29,11 @@ public class PanelCartas extends JXTaskPane{
 		
 		DefaultFormBuilder builder = new DefaultFormBuilder(layout);
 		
+		
+		ImageIcon aboutIcon = new ImageIcon("Iconos/blackjack5.gif");
 		tablaCartas = new JTable();
-		String []columnas = {"", "", "", ""};
-		String [][]matrizDatos = {{"1", "2", "3", "4"},{"1", "2", "3", "4"}};
+		String []columnas = {"", "", ""};
+		Object [][]matrizDatos = {{aboutIcon},{Utilidades.getIcon("Gris")}};
 		modeloCartas = new DefaultTableModel(matrizDatos, columnas);
 		tablaCartas.setModel(modeloCartas);
 		

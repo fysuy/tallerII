@@ -1,16 +1,9 @@
 package PresentacionCliente;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.LayoutManager;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-
-import org.jdesktop.layout.*;
-
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;

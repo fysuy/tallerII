@@ -9,13 +9,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JButton;
-import javax.swing.ListSelectionModel;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-
-import Logica.Facade;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -23,7 +20,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class FrmIniciarPartida extends JPanel {
-	
+
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;	
 	private JScrollPane scrollPane;
 	private JTable tablaIniciarPartida;
@@ -68,18 +66,23 @@ public class FrmIniciarPartida extends JPanel {
 		btnIniciar = new JButton("Iniciar");
 		btnIniciar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				//IniciarNuevaPartida();
 				int row_selected = tablaIniciarPartida.getSelectedRow();
+				
 				
 				if (row_selected >= 0)
 				{				
 					String codigoPartida = (String) tablaIniciarPartida.getValueAt(row_selected, 0);
-					//System.out.println("codigoPartida: " + codigoPartida);
+					if(PartidaYaIniciada(codigoPartida))
+						JOptionPane.showMessageDialog (null, "La partida ya se encuentra iniciada", "Error", JOptionPane.ERROR_MESSAGE);
+					else if(HayPartidaIniciada())
+						JOptionPane.showMessageDialog (null, "Ya hay una partida iniciada", "Error", JOptionPane.ERROR_MESSAGE);
+					else{
 					controladorIniciarPartida = new ControladorIniciarPartida();
 					controladorIniciarPartida.IniciarNuevaPartida(codigoPartida);
 					contentPane.removeAll();
 					contentPane.updateUI();
+					}
 				}
 				else
 				{
@@ -130,9 +133,22 @@ public class FrmIniciarPartida extends JPanel {
 			controladorIniciarPartida.IniciarNuevaPartida(codigoPartida);
 			System.out.println("row_selected_2");
 		}
-			
-		
 	}
+	
+	
+	public boolean PartidaYaIniciada(String codigo){
+		controladorIniciarPartida = new ControladorIniciarPartida();
+		return controladorIniciarPartida.PartidaYaIniciada(codigo);
+	}
+	
+	public boolean HayPartidaIniciada(){
+		controladorIniciarPartida = new ControladorIniciarPartida();
+		return controladorIniciarPartida.HayPartidaIniciada();
+	}
+	
+	
+	
+	
 	
 	public JPanel getPanel(){		
 		

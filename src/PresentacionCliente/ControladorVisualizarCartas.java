@@ -1,10 +1,6 @@
 package PresentacionCliente;
 
 import java.rmi.RemoteException;
-import java.util.Calendar;
-
-import Logica.DataCrearNuevaPartida;
-import Logica.DataPartida;
 import Logica.DataVisualizarCartas;
 import Logica.Facade;
 import Logica.IFacadeLogica;
@@ -19,10 +15,12 @@ public class ControladorVisualizarCartas {
 
 	public DataVisualizarCartas[] VisualizarCartas(){
 		
-		DataVisualizarCartas arregloDataVisualizarCartas[] = null;
+		DataVisualizarCartas arregloDataVisualizarCartas[] = {};
 			try {
 				fac = Facade.getInstance();
+				System.out.println("controlador 1");
 				arregloDataVisualizarCartas = fac.VisualizarCartas();
+				System.out.println("controlador 2");
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			} catch (Exception e) {

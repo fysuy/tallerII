@@ -1,6 +1,7 @@
 package Logica;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -53,44 +54,44 @@ public class Jugadores implements Serializable {
 		}
 		
 		public DataVisualizarCartas[] VisualizarCartas() {
-			
 			DataVisualizarCartas arregloDataVisualizarCartas[] = new DataVisualizarCartas[20]; 
-			
 			List<DataVisualizarCartas> arrAsList = Arrays.asList(arregloDataVisualizarCartas);
 			Iterator<DataVisualizarCartas> iteradorCartas = arrAsList.iterator();
-		
+			DataVisualizarCartas dataVisualizarCartas;
 			int i = 0;
+
 			while (iteradorCartas.hasNext())
 			{ 
-				DataVisualizarCartas dataVisualizarCartas = iteradorCartas.next();
-				arregloDataVisualizarCartas[i] = new DataVisualizarCartas(dataVisualizarCartas.getNumero(), dataVisualizarCartas.getNombre(), dataVisualizarCartas.getPuntos(), dataVisualizarCartas.getCartas());
+				dataVisualizarCartas = iteradorCartas.next();
+				//arregloDataVisualizarCartas[i] = new DataVisualizarCartas(dataVisualizarCartas.getNumero(), dataVisualizarCartas.getNombre(), dataVisualizarCartas.getPuntos(), dataVisualizarCartas.getCartas());
+				arregloDataVisualizarCartas[i] = dataVisualizarCartas;
 				i++;
-			}
-						
+			}	
 			return arregloDataVisualizarCartas;
 		}
 		
 		public DataListarJugadoresPartidas[] listarJugadores()
 		{
-			DataListarJugadoresPartidas arregloJugadores[] = new DataListarJugadoresPartidas[ht.size()]; 
-			Iterator <Jugador> iteradorJugadores = ht.values().iterator();
-			
-			int i = 0;
-			while (iteradorJugadores.hasNext())
-			{ 
-				Jugador jugador = iteradorJugadores.next();
-				arregloJugadores[i] = new DataListarJugadoresPartidas(jugador.getNumero(),jugador.getNombre(), jugador.getPuntos());
-				i++;
+			Facade fac;
+			try {
+				fac = Facade.getInstance();
+				Partida par = fac.PartidaEnCurso();
+				Jugadores jug = par.getJugadores();
+				DataListarJugadoresPartidas data[] = jug.obtenerJugadoresPartida();
+				return data;
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-			
-			return arregloJugadores;
+			return null;
 		}
+		
 		
 		public DataJugador[] obtenerJugadores()
 		{
 			DataJugador arregloJugadores[] = new DataJugador[ht.size()]; 
 			Iterator <Jugador> iteradorJugadores = ht.values().iterator();
-			
 			int i = 0;
 			while (iteradorJugadores.hasNext())
 			{ 
@@ -98,7 +99,20 @@ public class Jugadores implements Serializable {
 				arregloJugadores[i] = new DataJugador(jugador.getNumero(), jugador.getNombre(), jugador.getPuntos(), jugador.isEnturno(), jugador.isEliminado(), jugador.getCartas());
 				i++;
 			}
-			
+			return arregloJugadores;
+		}
+		
+		public DataListarJugadoresPartidas[] obtenerJugadoresPartida()
+		{
+			DataListarJugadoresPartidas arregloJugadores[] = new DataListarJugadoresPartidas[ht.size()]; 
+			Iterator <Jugador> iteradorJugadores = ht.values().iterator();
+			int i = 0;
+			while (iteradorJugadores.hasNext())
+			{ 
+				Jugador jugador = iteradorJugadores.next();
+				arregloJugadores[i] = new DataListarJugadoresPartidas(jugador.getNumero(), jugador.getNombre(), jugador.getPuntos());
+				i++;
+			}
 			return arregloJugadores;
 		}
 

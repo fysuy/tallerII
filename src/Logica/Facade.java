@@ -19,6 +19,7 @@ public class Facade extends UnicastRemoteObject implements IFacadeLogica {
 		partidas = new Partidas();
 		cartas = new Cartas();
 		monitor = new Monitor();
+		jugadores = new Jugadores();
 		
 //     	PARA TESTEAR EL RECUPERAR DATOS
 //		try {
@@ -127,6 +128,14 @@ public class Facade extends UnicastRemoteObject implements IFacadeLogica {
 		//monitor.terminoLectura();
 		return aux;
 	}
+	
+	public Partida PartidaEnCurso() throws RemoteException{
+		//monitor.comienzoLectura();
+		Partida par= partidas.PartidaEnCurso();
+		//monitor.terminoLectura();
+		return par;
+	}
+	
 	public void BajarCartasAlMazo() throws RemoteException {
 		//monitor.comienzoEscritura();
 		cartas.BajarCartasAlMazo();
@@ -134,9 +143,12 @@ public class Facade extends UnicastRemoteObject implements IFacadeLogica {
 	}
 	
 	public DataVisualizarCartas[] VisualizarCartas() throws RemoteException{
+		System.out.println("entro a facade 0");
 		monitor.comienzoLectura();
+		System.out.println("entro a facade 1");
 		DataVisualizarCartas arregloDataVisualizarCartas[] = jugadores.VisualizarCartas();
 		monitor.terminoLectura();
+		System.out.println("salio de facade");
     	return arregloDataVisualizarCartas;
 	}
 	
@@ -189,6 +201,7 @@ public class Facade extends UnicastRemoteObject implements IFacadeLogica {
 		public void DarCarta(Jugador jugador) throws RemoteException {	
 			monitor.comienzoEscritura();
 			int valor = cartas.darCarta(jugador);
+			cartas.borrarCarta();
 			int totalCartas = jugador.getPuntos() + valor;
 			jugador.setPuntos(totalCartas);
 			monitor.terminoEscritura();
@@ -202,6 +215,10 @@ public class Facade extends UnicastRemoteObject implements IFacadeLogica {
 		if(partida == null){
 			monitor.terminoEscritura();
 			throw new PartidaNoHayEnCursoException("No hay ninguna partida actualmente en curso");
+		}
+		else
+		{
+			partidas.MarcarProximoEnTurno(partida);
 		}
 		monitor.terminoEscritura();
 		//Notificar a los jugadores de la partida que actualizen la visualizacion de las cartas.
@@ -285,6 +302,13 @@ public class Facade extends UnicastRemoteObject implements IFacadeLogica {
 	public int CantidadJugadoresNoEliminados(DataPartida dataPartidaActual) throws RemoteException {
 		monitor.comienzoLectura();
 		int aux = partidas.CantidadJugadoresNoEliminados(dataPartidaActual);
+		monitor.terminoLectura();
+		return aux;
+	}
+	
+	public boolean estaIniciada(String codigo){
+		monitor.comienzoLectura();
+		boolean aux = partidas.estaIniciada(codigo);
 		monitor.terminoLectura();
 		return aux;
 	}

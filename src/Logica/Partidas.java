@@ -1,6 +1,7 @@
 package Logica;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.Iterator;
 import java.util.TreeMap;
 
@@ -34,11 +35,6 @@ public class Partidas implements Serializable {
 				jugadores.insert(jugador);
 			}
 			Partida partida = new Partida(clave, jugadores.find(1), jugadores.find(1), false, false, jugadores);
-			
-			System.out.println("clave" + clave);
-			System.out.println("jugadores getNombre" + jugadores.find(1).getNombre());
-
-			
 			tm.put(clave, partida); 
 					
 		}
@@ -65,26 +61,34 @@ public class Partidas implements Serializable {
 			try {
 				partida = this.find(codigo);
 				partida.setEnCurso(true);
-				System.out.println("partida.getJugadores() " + partida.getJugadores().find(1).getNombre()); 
-				
 				partida.getJugadores().find(1).setEnturno(true);
-				
 			} 
 			catch (PartidaNoExisteException e) { throw e; } 
-
-
 		}
 
 		public boolean HayAlgunaPartidaIniciada() {
 			Iterator <Partida> iteradorPartidas = tm.values().iterator();
 			boolean hay = false;
-
 			while (iteradorPartidas.hasNext() && !hay)
 			{ 
 				hay = iteradorPartidas.next().isEnCurso();
 			}
-
 			return hay;
+		}
+		
+		public Partida PartidaEnCurso() {
+			Iterator <Partida> iteradorPartidas = tm.values().iterator();
+			Partida par = null, aux = null;
+			boolean hay = false;
+			while (iteradorPartidas.hasNext() && !hay)
+			{ 
+				par = iteradorPartidas.next();
+				if(par.isEnCurso()){
+					aux = par;
+					hay = true;
+				}
+			}
+			return aux;
 		}
 		
 		public boolean ExisteCodigo(String codigo) 
@@ -110,19 +114,19 @@ public class Partidas implements Serializable {
 		}
 		
 		public DataPartida[] listarPartidas()
-         {
-                 DataPartida arregloPartidas[] = new DataPartida[tm.size()];
-                 Iterator <Partida> iteradorPartidas = tm.values().iterator();
-                 
-                 int i = 0;
-                 while (iteradorPartidas.hasNext())
-                 {
-                         Partida partida = iteradorPartidas.next();
-                         arregloPartidas[i] = new DataPartida(partida.getCodigo(), partida.getProximoJugador(), partida.getEventualGanador(), partida.isEnCurso(), partida.isFinalizada(), partida.getJugadores());
-                         i++;
-                 }
-                 
-                 return arregloPartidas;
+        {
+             DataPartida arregloPartidas[] = new DataPartida[tm.size()];
+             Iterator <Partida> iteradorPartidas = tm.values().iterator();
+             
+             int i = 0;
+             while (iteradorPartidas.hasNext())
+             {
+                 Partida partida = iteradorPartidas.next();
+                 arregloPartidas[i] = new DataPartida(partida.getCodigo(), partida.getProximoJugador(), partida.getEventualGanador(), partida.isEnCurso(), partida.isFinalizada(), partida.getJugadores());
+                 i++;
+             }
+             
+             return arregloPartidas;
          }
 
 		public Partida getPartidaEnCurso()
@@ -149,28 +153,31 @@ public class Partidas implements Serializable {
 			
 			boolean encontre = false, salir = false;
 			int numeroJugador = partidaEnCusrso.getProximoJugador().getNumero();
+			Jugador jugadorSaliente = jugadores.find(numeroJugador);
+			jugadorSaliente.setEnturno(false);
 			int i = numeroJugador;
+			int tope = arregloDataJugadores.length;
 			
 			while(!encontre)
 			{
-				if(arregloDataJugadores.length == numeroJugador)
-					i = 0;
+				if(numeroJugador == tope)
+					i = 1;
 				else
 					i++;
 				
-				if(!arregloDataJugadores[i].isEliminado())
+				if(!arregloDataJugadores[i-1].isEliminado())
 				{
-					if(arregloDataJugadores[i].getNumero() == numeroJugador)
+					if(arregloDataJugadores[i-1].getNumero() == numeroJugador)
 						salir = true;
 					else
 					{
 						jugador = new Jugador(
-								arregloDataJugadores[i].getNumero(), 
-								arregloDataJugadores[i].getNombre(), 
-								arregloDataJugadores[i].getPuntos(), 
-								arregloDataJugadores[i].isEnturno(), 
-								arregloDataJugadores[i].isEliminado(), 
-								arregloDataJugadores[i].getCartas());
+								arregloDataJugadores[i-1].getNumero(), 
+								arregloDataJugadores[i-1].getNombre(), 
+								arregloDataJugadores[i-1].getPuntos(), 
+								arregloDataJugadores[i-1].isEnturno(), 
+								arregloDataJugadores[i-1].isEliminado(), 
+								arregloDataJugadores[i-1].getCartas());
 						jugador.setEnturno(true);
 						encontre = true;
 					}					
@@ -209,4 +216,32 @@ public class Partidas implements Serializable {
 		} 		   
 		return esMayorPuntaje;
 	}
+	
+	
+	public boolean estaIniciada(String codigo){
+		try {
+			Facade fac = Facade.getInstance();
+			Partida par = fac.ObtenerPartida(codigo);
+			return (par.isEnCurso());
+		} 
+		catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

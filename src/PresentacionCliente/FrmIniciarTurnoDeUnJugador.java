@@ -1,30 +1,19 @@
 package PresentacionCliente;
 
 import java.awt.Color;
-
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JButton;
-import javax.swing.ListSelectionModel;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-
-import Logica.Facade;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.Font;
 
 public class FrmIniciarTurnoDeUnJugador extends JPanel {
 	
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;	
 	private JButton btnIniciar;
 	private JButton btnCancelar;
@@ -45,6 +34,7 @@ public class FrmIniciarTurnoDeUnJugador extends JPanel {
 		btnIniciar = new JButton("Iniciar");
 		btnIniciar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				controladorIniciarTurnoJugador = new ControladorIniciarTurnoJugador();
 				controladorIniciarTurnoJugador.IniciarTurnoJugador();
 					
 			}

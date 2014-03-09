@@ -35,6 +35,7 @@ public interface IFacadeLogica extends Remote{
 	public void RealizarJugada(DataRealizarJugada dataRealizarJugada) throws RemoteException;
 	public DataPartida ObtenerDataPartidaEnCurso()  throws RemoteException;
 	public int CantidadJugadoresNoEliminados(DataPartida dataPartidaActual) throws RemoteException;
+	public boolean estaIniciada(String codigo) throws RemoteException;
 	
 
 }
