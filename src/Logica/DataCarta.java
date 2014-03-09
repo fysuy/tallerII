@@ -3,6 +3,7 @@ package Logica;
 import java.io.Serializable;
 
 public class DataCarta implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private String palo;
 	private String valor;
 	private int valorEnJuego;

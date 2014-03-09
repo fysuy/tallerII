@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Jugadores implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
 		protected Hashtable<Integer, Jugador> ht; 
 		

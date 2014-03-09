@@ -1,9 +1,11 @@
 package Fisica;
 
 import java.util.ArrayList;
+
 import Logica.DataCrearNuevaPartida;
 import Logica.DataListarJugadoresPartidas;
 import Logica.DataPartida;
+import Logica.DataRealizarJugada;
 import Logica.DataVisualizarCartas;
 import Logica.Facade;
 import Logica.Jugador;

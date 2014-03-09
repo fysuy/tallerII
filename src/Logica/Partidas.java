@@ -4,11 +4,11 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.TreeMap;
 
-import Excepciones.HayPartidasIniciadasException;
 import Excepciones.PartidaNoExisteException;
 
 public class Partidas implements Serializable {
-	
+
+	private static final long serialVersionUID = 1L;
 		private TreeMap<String, Partida> tm; 	
 		public Partidas()
 		{ 			
@@ -33,7 +33,12 @@ public class Partidas implements Serializable {
 				Jugador jugador = new Jugador(i + 1, dataCrearNuevaPartida.getArregloNombres()[i], 0, false, false, null);
 				jugadores.insert(jugador);
 			}
-			Partida partida = new Partida(clave, null, null, false, false, jugadores);
+			Partida partida = new Partida(clave, jugadores.find(1), jugadores.find(1), false, false, jugadores);
+			
+			System.out.println("clave" + clave);
+			System.out.println("jugadores getNombre" + jugadores.find(1).getNombre());
+
+			
 			tm.put(clave, partida); 
 					
 		}
@@ -60,7 +65,9 @@ public class Partidas implements Serializable {
 			try {
 				partida = this.find(codigo);
 				partida.setEnCurso(true);
-				partida.getJugadores().find(0).setEnturno(true);
+				System.out.println("partida.getJugadores() " + partida.getJugadores().find(1).getNombre()); 
+				
+				partida.getJugadores().find(1).setEnturno(true);
 				
 			} 
 			catch (PartidaNoExisteException e) { throw e; } 
@@ -69,8 +76,6 @@ public class Partidas implements Serializable {
 		}
 
 		public boolean HayAlgunaPartidaIniciada() {
-
-			DataPartida arregloPartidas[] = new DataPartida[tm.size()]; 
 			Iterator <Partida> iteradorPartidas = tm.values().iterator();
 			boolean hay = false;
 
@@ -135,4 +140,73 @@ public class Partidas implements Serializable {
 			
 			return result;
 		}
+		
+		public void MarcarProximoEnTurno(Partida partidaEnCusrso) {
+
+			Jugadores jugadores = partidaEnCusrso.getJugadores();
+			DataJugador arregloDataJugadores[] = jugadores.obtenerJugadores();
+			Jugador jugador;
+			
+			boolean encontre = false, salir = false;
+			int numeroJugador = partidaEnCusrso.getProximoJugador().getNumero();
+			int i = numeroJugador;
+			
+			while(!encontre)
+			{
+				if(arregloDataJugadores.length == numeroJugador)
+					i = 0;
+				else
+					i++;
+				
+				if(!arregloDataJugadores[i].isEliminado())
+				{
+					if(arregloDataJugadores[i].getNumero() == numeroJugador)
+						salir = true;
+					else
+					{
+						jugador = new Jugador(
+								arregloDataJugadores[i].getNumero(), 
+								arregloDataJugadores[i].getNombre(), 
+								arregloDataJugadores[i].getPuntos(), 
+								arregloDataJugadores[i].isEnturno(), 
+								arregloDataJugadores[i].isEliminado(), 
+								arregloDataJugadores[i].getCartas());
+						jugador.setEnturno(true);
+						encontre = true;
+					}					
+			    }
+			
+		    }
+	   }
+	   public int CantidadJugadoresNoEliminados(DataPartida dataPartidaActual){
+		   
+		   Jugadores jugadores = dataPartidaActual.getJugadores();		   
+		   DataJugador dataJugador[] = jugadores.obtenerJugadores();
+		   
+		   int cantidad = 0;
+		   for( int i=0; i<dataJugador.length ; i ++ )
+			{ 
+				if(!dataJugador[i].isEliminado())
+				{
+					cantidad++;
+				}
+			} 		   
+		   return cantidad;
+	   }
+
+	public boolean TieneMayorPuntaje(DataPartida dataPartidaActual, int puntos) {
+		  
+		Jugadores jugadores = dataPartidaActual.getJugadores();		   
+		DataJugador dataJugador[] = jugadores.obtenerJugadores();
+		
+		boolean esMayorPuntaje = true;
+		for( int i=0; i<dataJugador.length ; i ++ )
+		{ 
+			if(dataJugador[i].getPuntos() < 21 && dataJugador[i].getPuntos() > puntos)
+			{
+				esMayorPuntaje = false;
+			}
+		} 		   
+		return esMayorPuntaje;
+	}
 }
