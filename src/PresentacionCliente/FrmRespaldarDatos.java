@@ -44,11 +44,13 @@ public class FrmRespaldarDatos extends JPanel {
 		contentPane.setOpaque(false);
 		setLayout(null);
 		
+		controladorGuardarPartida = new ControladorRespaldarDatos();
+		
 		btnIniciar = new JButton("Si");
 		btnIniciar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controladorGuardarPartida.RespaldarDatos();
-				JOptionPane.showMessageDialog(contentPane, "La información fue respaldada con existo!", "", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(contentPane, "La información fue respaldada con exito!", "", JOptionPane.INFORMATION_MESSAGE);
 				contentPane.removeAll();
 				contentPane.updateUI();
 			}

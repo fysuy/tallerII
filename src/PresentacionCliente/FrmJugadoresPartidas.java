@@ -21,8 +21,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
 import javax.swing.JTextField;
 
-import Controladores.ControladorListarJugadores;
-
 public class FrmJugadoresPartidas extends JPanel {
 	
 	private static final long serialVersionUID = 1L;

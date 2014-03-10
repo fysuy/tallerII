@@ -22,7 +22,7 @@ public class MainCliente {
 			
 		}catch(Exception e){
 			
-			JOptionPane.showMessageDialog(null, "No se actualizo el luck and feel");
+			JOptionPane.showMessageDialog(null, "No se actualizo el look and feel");
 		}
 		
 		FrmPrincipal frame;

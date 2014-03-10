@@ -38,8 +38,8 @@ public class PanelCentral extends JPanel{
 				pan = listarJugadores.getPanel();
 				break;
 			case 6:
-				//IniciarPartida iniciarPartida = new IniciarPartida();Guardar
-				//pan = iniciarPartida.getPanel();
+				FrmRespaldarDatos respaldarDatos = new FrmRespaldarDatos();
+				pan = respaldarDatos.getPanel();
 				break;	
 			case 7:
 				//NuevaPartida nuevaPartida = new NuevaPartida();Configuracion
