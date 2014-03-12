@@ -9,6 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
+import PresentacionCliente.Vistas.FrmPrincipal;
+
 
 @SuppressWarnings("serial")
 public class BarraHerramientas extends JToolBar{
@@ -19,8 +21,8 @@ public class BarraHerramientas extends JToolBar{
 	public BarraHerramientas(String label, int size, boolean hasStrings, FrmPrincipal ventana) throws RemoteException {
 		super();
 		this.ventana = ventana;
-		this.setRollover( true );
-		this.setFloatable( false );
+		this.setRollover(true);
+		this.setFloatable(false);
 		this.hasStrings = hasStrings;
 		
 		AddButton("Crear una nueva partida", "Rojo", 1);

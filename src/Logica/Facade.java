@@ -3,6 +3,9 @@ package Logica;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.List;
+
 import Excepciones.*;
 import Persistencia.Respaldo;
 
@@ -14,6 +17,13 @@ public class Facade extends UnicastRemoteObject implements IFacadeLogica {
 	private Cartas cartas;
 	private Jugadores jugadores;
 	private Monitor monitor;
+	
+	
+	List listaControladores = new ArrayList(); 
+	//listaControla
+	
+	
+	
 	
 	public Facade() throws RemoteException {
 		partidas = new Partidas();
@@ -102,12 +112,14 @@ public class Facade extends UnicastRemoteObject implements IFacadeLogica {
 				boolean mazoCreado = MazoCreado();
 				if(mazoCreado)
 				{
+					System.out.println("El mazo ya esta creado");
 					BarajarCartas();
 				}
 				else
 				{
 					BajarCartasAlMazo();
 					BarajarCartas();
+					System.out.println("Se bajo y se barajo");
 				}
 			} 	
 			 catch (PartidaNoExisteException e) {
@@ -129,11 +141,18 @@ public class Facade extends UnicastRemoteObject implements IFacadeLogica {
 		return aux;
 	}
 	
-	public Partida PartidaEnCurso() throws RemoteException{
-		//monitor.comienzoLectura();
-		Partida par= partidas.PartidaEnCurso();
-		//monitor.terminoLectura();
-		return par;
+	public Partida PartidaEnCurso() throws RemoteException, PartidaNoHayEnCursoException{
+		Partida partida = partidas.PartidaEnCurso();
+		if(partida == null)
+		{
+			//return partida;
+	    	throw new PartidaNoHayEnCursoException("No hay ninguna partida iniciada22");
+		}
+		else
+		{
+			return partida;
+		}
+		//return partida;
 	}
 	
 	public void BajarCartasAlMazo() throws RemoteException {
@@ -143,13 +162,17 @@ public class Facade extends UnicastRemoteObject implements IFacadeLogica {
 	}
 	
 	public DataVisualizarCartas[] VisualizarCartas() throws RemoteException{
-		System.out.println("entro a facade 0");
 		monitor.comienzoLectura();
-		System.out.println("entro a facade 1");
 		DataVisualizarCartas arregloDataVisualizarCartas[] = jugadores.VisualizarCartas();
 		monitor.terminoLectura();
-		System.out.println("salio de facade");
     	return arregloDataVisualizarCartas;
+	}
+	
+	public DataCarta[] VisualizarCartas2(int codigoJugador) throws RemoteException{
+		monitor.comienzoLectura();
+		DataCarta arregloDataCarta[] = jugadores.VisualizarCartas2(codigoJugador);
+		monitor.terminoLectura();
+    	return arregloDataCarta;
 	}
 	
 	public void RespaldarDatos() throws RemoteException
@@ -191,6 +214,16 @@ public class Facade extends UnicastRemoteObject implements IFacadeLogica {
          monitor.terminoLectura();
          return arregloJugadores;
 	 }
+	 
+	 public DataJugador[] listarTodoJugadores() throws RemoteException, PartidaNoHayEnCursoException{
+		 monitor.comienzoLectura();
+		 Partida partida = PartidaEnCurso();
+		 Jugadores jugadores = partida.getJugadores();
+		 DataJugador arregloJugadores[] = jugadores.listarTodoJugadores(jugadores);
+         monitor.terminoLectura();
+         return arregloJugadores;
+	 }
+	 
 	 public DataJugador[] obtenerJugadores() throws RemoteException{
 		 monitor.comienzoLectura();
          DataJugador arregloJugadores[] = jugadores.obtenerJugadores();
@@ -199,27 +232,28 @@ public class Facade extends UnicastRemoteObject implements IFacadeLogica {
 	 }
 
 		public void DarCarta(Jugador jugador) throws RemoteException {	
-			monitor.comienzoEscritura();
+			//monitor.comienzoEscritura();
 			int valor = cartas.darCarta(jugador);
 			cartas.borrarCarta();
 			int totalCartas = jugador.getPuntos() + valor;
 			jugador.setPuntos(totalCartas);
-			monitor.terminoEscritura();
+			
+			//monitor.terminoEscritura();
 		}
 	
 	//Req 5 - Iniciar turno de un jugador
 	public void IniciarTurnoJugador() throws RemoteException, PartidaNoHayEnCursoException
 	{
 		monitor.comienzoEscritura();
-		Partida partida = partidas.getPartidaEnCurso();
+		Partida partida = PartidaEnCurso();
 		if(partida == null){
 			monitor.terminoEscritura();
-			throw new PartidaNoHayEnCursoException("No hay ninguna partida actualmente en curso");
+			throw new RemoteException("No hay ninguna partida actualmente en curso");//   <--
 		}
-		else
-		{
-			partidas.MarcarProximoEnTurno(partida);
-		}
+		//else
+		//{
+		//	partidas.MarcarProximoEnTurno(partida);
+		//}
 		monitor.terminoEscritura();
 		//Notificar a los jugadores de la partida que actualizen la visualizacion de las cartas.
 	}
@@ -243,6 +277,7 @@ public class Facade extends UnicastRemoteObject implements IFacadeLogica {
 	}
 	
 	public void RealizarJugada(DataRealizarJugada dataRealizarJugada) throws RemoteException {
+		
 		monitor.comienzoEscritura();
 		DataPartida dataPartidaEnCusrso = dataRealizarJugada.getDataPartida();
 		Partida partidaEnCusrso = new Partida(
@@ -252,12 +287,14 @@ public class Facade extends UnicastRemoteObject implements IFacadeLogica {
 				dataPartidaEnCusrso.isEnCurso(), 
 				dataPartidaEnCusrso.isFinalizada(), 
 				dataPartidaEnCusrso.getJugadores());
+		
 		Jugador jugadorEnTurno = dataPartidaEnCusrso.getProximoJugador();
+		
+		//Jugador jugadorProximo = partidaEnCusrso.getProximoJugador();
 		
 		if(dataRealizarJugada.isPideCarta())
 		{
-			DarCarta(partidaEnCusrso.getProximoJugador());
-			
+			DarCarta(jugadorEnTurno);
 			if(jugadorEnTurno.getPuntos() == 21)
 			{
 				partidaEnCusrso.setEventualGanador(jugadorEnTurno);
@@ -268,19 +305,59 @@ public class Facade extends UnicastRemoteObject implements IFacadeLogica {
 				if(jugadorEnTurno.getPuntos() > 21)
 				{
 					jugadorEnTurno.setEliminado(true);
-					partidaEnCusrso.setFinalizada(true);
+					jugadorEnTurno.setEnturno(false);
+					//partidaEnCusrso.setFinalizada(true);
 				}
 				else
 				{
 					if(partidas.TieneMayorPuntaje(dataPartidaEnCusrso, jugadorEnTurno.getPuntos()))
 						partidaEnCusrso.setEventualGanador(jugadorEnTurno);
 					
-					jugadorEnTurno.setEnturno(false);
-					partidas.MarcarProximoEnTurno(partidaEnCusrso);			
+					
 						
 				}
 			}
 		}
+		
+		
+		
+		System.out.println("jugadorEnTurno.getNumero(): " + jugadorEnTurno.getNumero());
+		//partidas.MarcarProximoEnTurno(partidaEnCusrso);		
+		jugadorEnTurno.setEnturno(false);
+		if(jugadorEnTurno.isEnturno())
+			System.out.println("en turno es true");
+		else
+			System.out.println("en turno es false");
+		
+		Jugadores jugadores = partidaEnCusrso.getJugadores();
+
+		int numeroJugadorActual = jugadorEnTurno.getNumero();
+		
+		int i = numeroJugadorActual;
+		
+		DataJugador arregloDataJugadores[] = jugadores.obtenerJugadores();
+		System.out.println("4");
+		int totalJugadores = arregloDataJugadores.length;
+		
+		Jugador jugador;
+		boolean encontre = false;
+		while(!encontre)
+		{
+			if(i == totalJugadores)
+				i = 0;
+			else
+				i++;
+			
+			if(!arregloDataJugadores[i].isEliminado())
+			{
+				System.out.println("i: " + i);
+				//jugador = jugadores.find(arregloDataJugadores[i].getNumero());
+				jugador = jugadores.find(i);
+				jugador.setEnturno(true);
+				encontre = true;
+			}			
+	    }
+		System.out.println("6");
 		monitor.terminoEscritura();
 		
 	}

@@ -4,36 +4,30 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.rmi.Naming;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
+import java.rmi.NotBoundException;
+import java.util.ArrayList;
 import java.util.Properties;
 
+import Excepciones.PartidaNoExisteException;
+import Logica.DataCrearNuevaPartida;
 import Logica.Facade;
+import Logica.IFacadeLogica;
+import Logica.Partida;
 
-public class Servidor {
+public class Client {
+	private IFacadeLogica fac;
 	
-	public static void main (String [] args)
+	public Client()
 	{
-		try
+		try 
 		{
 			Properties p = new Properties();
-			Facade fac = new Facade();
-			
 			String nomArch = "config/config.properties";
 			p.load (new FileInputStream (nomArch));
-			
 			String ip = p.getProperty("ipServidor");
 			String puerto = p.getProperty("puertoServidor");
-			
-			int port = Integer.parseInt(puerto);
-			LocateRegistry.createRegistry(port);
-			
 			String ruta = "//" + ip + ":" + puerto + "/obj";
-			Naming.rebind(ruta, fac);			
-		}
-		catch (RemoteException e)
-		{
-			e.printStackTrace();
+			this.fac = (IFacadeLogica)Naming.lookup(ruta);			
 		}
 		catch (FileNotFoundException e)
 		{
@@ -42,10 +36,16 @@ public class Servidor {
 		catch (IOException e)
 		{
 			e.printStackTrace();
+		} 
+		catch (NotBoundException e) 
+		{
+			e.printStackTrace();
 		}
 	}
-	
-	
-	
+
+	public IFacadeLogica getFacade()
+	{
+		return this.fac;
+	}
 
 }

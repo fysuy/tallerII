@@ -1,4 +1,4 @@
-package PresentacionCliente;
+package PresentacionCliente.Vistas;
 
 import java.awt.Color;
 
@@ -13,6 +13,12 @@ import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+
+import PresentacionCliente.FacadeDispatcher;
+import PresentacionCliente.TablasColor;
+import PresentacionCliente.Utilidades;
+import PresentacionCliente.Controladores.ControladorIniciarPartida;
+import PresentacionCliente.Controladores.ControladorListarPartida;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -31,6 +37,7 @@ public class FrmIniciarPartida extends JPanel {
 	private DefaultTableModel modeloIniciarPartida;
 	private ControladorListarPartida controladorListarPartida;
 	private ControladorIniciarPartida controladorIniciarPartida;
+	private FacadeDispatcher facadeDispatcher = new FacadeDispatcher();
 	
 	public FrmIniciarPartida() {
 		
@@ -78,7 +85,7 @@ public class FrmIniciarPartida extends JPanel {
 					else if(HayPartidaIniciada())
 						JOptionPane.showMessageDialog (null, "Ya hay una partida iniciada", "Error", JOptionPane.ERROR_MESSAGE);
 					else{
-					controladorIniciarPartida = new ControladorIniciarPartida();
+					controladorIniciarPartida = new ControladorIniciarPartida(facadeDispatcher.getFacade());
 					controladorIniciarPartida.IniciarNuevaPartida(codigoPartida);
 					contentPane.removeAll();
 					contentPane.updateUI();
@@ -126,7 +133,7 @@ public class FrmIniciarPartida extends JPanel {
 		//String d = tablaIniciarPartida.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		String codigoPartida = (String) tablaIniciarPartida.getValueAt(row_selected, 0);
 		System.out.println("codigoPartida: " + codigoPartida);
-		controladorIniciarPartida = new ControladorIniciarPartida();
+		controladorIniciarPartida = new ControladorIniciarPartida(facadeDispatcher.getFacade());
 		if (row_selected >= 0)
 		{
 			System.out.println("row_selected_1");
@@ -137,22 +144,18 @@ public class FrmIniciarPartida extends JPanel {
 	
 	
 	public boolean PartidaYaIniciada(String codigo){
-		controladorIniciarPartida = new ControladorIniciarPartida();
+		controladorIniciarPartida = new ControladorIniciarPartida(facadeDispatcher.getFacade());
 		return controladorIniciarPartida.PartidaYaIniciada(codigo);
 	}
 	
 	public boolean HayPartidaIniciada(){
-		controladorIniciarPartida = new ControladorIniciarPartida();
+		controladorIniciarPartida = new ControladorIniciarPartida(facadeDispatcher.getFacade());
 		return controladorIniciarPartida.HayPartidaIniciada();
-	}
-	
-	
-	
-	
+	}	
 	
 	public JPanel getPanel(){		
 		
-		controladorListarPartida = new ControladorListarPartida();		
+		controladorListarPartida = new ControladorListarPartida(facadeDispatcher.getFacade());		
 		String arregloCodigosPartidas[] = controladorListarPartida.ListarPartidas();
 		
 		String []columnas = {"CÓDIGO"};

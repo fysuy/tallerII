@@ -1,4 +1,4 @@
-package PresentacionCliente;
+package PresentacionCliente.Vistas;
 
 import java.awt.Color;
 
@@ -13,7 +13,12 @@ import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+
 import Logica.DataListarJugadoresPartidas;
+import PresentacionCliente.FacadeDispatcher;
+import PresentacionCliente.TablasColor;
+import PresentacionCliente.Controladores.ControladorListarJugadores;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -26,7 +31,8 @@ public class FrmListarJugadores extends JPanel {
 	private JButton btnMostrar;
 	private JButton btnCancelar;
 	private DefaultTableModel modelo;
-	ControladorListarJugadores listarJugadores;
+	private ControladorListarJugadores listarJugadores;
+	private FacadeDispatcher facadeDispatcher = new FacadeDispatcher();
 		
 	public FrmListarJugadores() {
 		
@@ -82,7 +88,7 @@ public class FrmListarJugadores extends JPanel {
 	}
 	
 	public void ListarPartidas(){
-		listarJugadores = new ControladorListarJugadores();
+		listarJugadores = new ControladorListarJugadores(facadeDispatcher.getFacade());
 		DataListarJugadoresPartidas data[] = listarJugadores.ListarJugadores();
 		for(int i=data.length-1; i>=0; i=i-1){
 			Object[] nuevaFila = {Integer.toString(data[i].getNumero()), data[i].getNombre(), Integer.toString(data[i].getPuntos())};
@@ -91,7 +97,7 @@ public class FrmListarJugadores extends JPanel {
 	}
 	
 	public boolean HayPartidaIniciada(){
-		listarJugadores = new ControladorListarJugadores();
+		listarJugadores = new ControladorListarJugadores(facadeDispatcher.getFacade());
 		return listarJugadores.HayPartidaIniciada();
 	}
 	

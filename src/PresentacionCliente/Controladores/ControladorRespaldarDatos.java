@@ -1,4 +1,4 @@
-package PresentacionCliente;
+package PresentacionCliente.Controladores;
 
 import java.rmi.RemoteException;
 import java.util.Calendar;
@@ -19,8 +19,7 @@ public class ControladorRespaldarDatos {
 	{	
 		try 
 		{
-			fac = Facade.getInstance();
-			fac.RespaldarDatos();
+			this.fac.RespaldarDatos();
 		} 
 		catch (RemoteException e) { e.printStackTrace(); } 
 		catch (Exception e) { e.printStackTrace(); }			

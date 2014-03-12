@@ -31,7 +31,8 @@ public class Partidas implements Serializable {
 			Jugadores jugadores = new Jugadores();
 			for(int i = 0; i < dataCrearNuevaPartida.getArregloNombres().length; i++)
 			{
-				Jugador jugador = new Jugador(i + 1, dataCrearNuevaPartida.getArregloNombres()[i], 0, false, false, null);
+				Cartas cartas = new Cartas();
+				Jugador jugador = new Jugador(i + 1, dataCrearNuevaPartida.getArregloNombres()[i], 0, false, false, cartas);
 				jugadores.insert(jugador);
 			}
 			Partida partida = new Partida(clave, jugadores.find(1), jugadores.find(1), false, false, jugadores);
@@ -148,41 +149,33 @@ public class Partidas implements Serializable {
 		public void MarcarProximoEnTurno(Partida partidaEnCusrso) {
 
 			Jugadores jugadores = partidaEnCusrso.getJugadores();
+						
+			int numeroJugadorActual = partidaEnCusrso.getProximoJugador().getNumero();
+			Jugador jugadorSaliente = partidaEnCusrso.getProximoJugador();
+			
+			jugadorSaliente.setEnturno(false);
+			int i = numeroJugadorActual;
+						
 			DataJugador arregloDataJugadores[] = jugadores.obtenerJugadores();
 			Jugador jugador;
+			int totalJugadores = arregloDataJugadores.length;
 			
-			boolean encontre = false, salir = false;
-			int numeroJugador = partidaEnCusrso.getProximoJugador().getNumero();
-			Jugador jugadorSaliente = jugadores.find(numeroJugador);
-			jugadorSaliente.setEnturno(false);
-			int i = numeroJugador;
-			int tope = arregloDataJugadores.length;
-			
+			boolean encontre = false;
 			while(!encontre)
 			{
-				if(numeroJugador == tope)
-					i = 1;
+				if(i == totalJugadores)
+					i = 0;
 				else
 					i++;
 				
-				if(!arregloDataJugadores[i-1].isEliminado())
+				if(!arregloDataJugadores[i].isEliminado())
 				{
-					if(arregloDataJugadores[i-1].getNumero() == numeroJugador)
-						salir = true;
-					else
-					{
-						jugador = new Jugador(
-								arregloDataJugadores[i-1].getNumero(), 
-								arregloDataJugadores[i-1].getNombre(), 
-								arregloDataJugadores[i-1].getPuntos(), 
-								arregloDataJugadores[i-1].isEnturno(), 
-								arregloDataJugadores[i-1].isEliminado(), 
-								arregloDataJugadores[i-1].getCartas());
-						jugador.setEnturno(true);
-						encontre = true;
-					}					
-			    }
-			
+					jugador = jugadores.find(arregloDataJugadores[i].getNumero());
+					jugador.setEnturno(true);
+					encontre = true;
+				}
+				
+		
 		    }
 	   }
 	   public int CantidadJugadoresNoEliminados(DataPartida dataPartidaActual){

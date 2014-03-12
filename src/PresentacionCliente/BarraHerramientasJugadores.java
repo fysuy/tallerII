@@ -9,6 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
+import PresentacionCliente.Vistas.FrmPrincipalJugadores;
+
 
 @SuppressWarnings("serial")
 public class BarraHerramientasJugadores extends JToolBar{
@@ -31,12 +33,28 @@ public class BarraHerramientasJugadores extends JToolBar{
 		this.add(button1);		
 		this.addSeparator();
 		
-		button2 = new JButton(hasStrings ? "Realizar jugada" : null, Utilidades.getIcon("Gris"));
-		button2.addActionListener(new ManejadorEventos());
-		button2.setToolTipText("Realizar jugada");
-		button2.setVerticalTextPosition( SwingConstants.BOTTOM );
-		button2.setHorizontalTextPosition( SwingConstants.CENTER );
+    	button2 = new JButton(hasStrings ? "Realizar jugada" : null, Utilidades.getIcon("Gris"));
+    	button2.addActionListener(new ManejadorEventos());
+    	button2.setToolTipText("Realizar jugada");
+    	button2.setVerticalTextPosition( SwingConstants.BOTTOM );
+    	button2.setHorizontalTextPosition( SwingConstants.CENTER );
 		this.add(button2);		
+		this.addSeparator();
+		
+		button3 = new JButton(hasStrings ? "Listar todo jugadores" : null, Utilidades.getIcon("Gris"));
+		button3.addActionListener(new ManejadorEventos());
+		button3.setToolTipText("Listar todo jugadore");
+		button3.setVerticalTextPosition( SwingConstants.BOTTOM );
+		button3.setHorizontalTextPosition( SwingConstants.CENTER );
+		this.add(button3);		
+		this.addSeparator();
+		
+		button4 = new JButton(hasStrings ? "Listar todo cartas" : null, Utilidades.getIcon("Gris"));
+		button4.addActionListener(new ManejadorEventos());
+		button4.setToolTipText("Listar todo cartas");
+		button4.setVerticalTextPosition( SwingConstants.BOTTOM );
+		button4.setHorizontalTextPosition( SwingConstants.CENTER );
+		this.add(button4);		
 		this.addSeparator();
 		
 		button7 = new JButton(hasStrings ? "  Configuración  " : null, Utilidades.getIcon("Config"));

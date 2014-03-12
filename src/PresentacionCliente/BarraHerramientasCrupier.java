@@ -9,12 +9,14 @@ import javax.swing.JButton;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
+import PresentacionCliente.Vistas.FrmPrincipalCrupier;
+
 
 @SuppressWarnings("serial")
 public class BarraHerramientasCrupier extends JToolBar{
 	
 	private FrmPrincipalCrupier ventana;
-	JButton button1, button2, button3, button4, button5, button6, button7, button8, button9;
+	JButton button1, button2, button3, button4, button5, button6, button7, button8, button9, button10;
 	
 	
 	public BarraHerramientasCrupier(String label, int size, boolean hasStrings, FrmPrincipalCrupier ventana) throws RemoteException {
@@ -23,7 +25,7 @@ public class BarraHerramientasCrupier extends JToolBar{
 		this.setRollover( true );
 		this.setFloatable( false );
 		
-		button1 = new JButton(hasStrings ? "Crear una nueva partida" : null, Utilidades.getIcon("Rojo"));
+		button1 = new JButton(hasStrings ? "Crear nueva partida" : null, Utilidades.getIcon("Rojo"));
 		button1.addActionListener(new ManejadorEventos());
 		button1.setToolTipText("Crear una nueva partida");
 		button1.setVerticalTextPosition( SwingConstants.BOTTOM );
@@ -31,7 +33,7 @@ public class BarraHerramientasCrupier extends JToolBar{
 		this.add(button1);		
 		this.addSeparator();
 		
-		button2 = new JButton(hasStrings ? "Iniciar una nueva partida" : null, Utilidades.getIcon("Gris"));
+		button2 = new JButton(hasStrings ? "Iniciar nueva partida" : null, Utilidades.getIcon("Gris"));
 		button2.addActionListener(new ManejadorEventos());
 		button2.setToolTipText("Iniciar una nueva partida");
 		button2.setVerticalTextPosition( SwingConstants.BOTTOM );
@@ -39,7 +41,7 @@ public class BarraHerramientasCrupier extends JToolBar{
 		this.add(button2);		
 		this.addSeparator();
 		
-		button3 = new JButton(hasStrings ? "Iniciar turno de un jugador" : null, Utilidades.getIcon("Celeste"));
+		button3 = new JButton(hasStrings ? "Iniciar turno de jugador" : null, Utilidades.getIcon("Celeste"));
 		button3.addActionListener(new ManejadorEventos());
 		button3.setToolTipText("Iniciar turno de un jugador");
 		button3.setVerticalTextPosition( SwingConstants.BOTTOM );
@@ -47,7 +49,7 @@ public class BarraHerramientasCrupier extends JToolBar{
 		this.add(button3);		
 		this.addSeparator();
 		
-		button4 = new JButton(hasStrings ? "Listar partidas registradas" : null, Utilidades.getIcon("Corazon"));
+		button4 = new JButton(hasStrings ? "Listar partidas" : null, Utilidades.getIcon("Corazon"));
 		button4.addActionListener(new ManejadorEventos());
 		button4.setToolTipText("Listar partidas registradas");
 		button4.setVerticalTextPosition( SwingConstants.BOTTOM );
@@ -63,7 +65,7 @@ public class BarraHerramientasCrupier extends JToolBar{
 		this.add(button5);		
 		this.addSeparator();
 		
-		button6 = new JButton(hasStrings ? "     Guardar    " : null, Utilidades.getIcon("Guardar"));
+		button6 = new JButton(hasStrings ? "Listar jugadores todos" : null, Utilidades.getIcon("Guardar"));
 		button6.addActionListener(new ManejadorEventos());
 		button6.setToolTipText("Guardar");
 		button6.setVerticalTextPosition( SwingConstants.BOTTOM );
@@ -71,7 +73,7 @@ public class BarraHerramientasCrupier extends JToolBar{
 		this.add(button6);		
 		this.addSeparator();
 		
-		button7 = new JButton(hasStrings ? "  Configuración  " : null, Utilidades.getIcon("Config"));
+		button7 = new JButton(hasStrings ? "Configuración" : null, Utilidades.getIcon("Config"));
 		button7.addActionListener(new ManejadorEventos());
 		button7.setToolTipText("Configuración");
 		button7.setVerticalTextPosition( SwingConstants.BOTTOM );
@@ -79,7 +81,7 @@ public class BarraHerramientasCrupier extends JToolBar{
 		this.add(button7);		
 		this.addSeparator();
 		
-		button8 = new JButton(hasStrings ? "      Salir      " : null, Utilidades.getIcon("salir"));
+		button8 = new JButton(hasStrings ? "Listar todo cartas" : null, Utilidades.getIcon("salir"));
 		button8.addActionListener(new ManejadorEventos());
 		button8.setToolTipText("Salir");
 		button8.setVerticalTextPosition( SwingConstants.BOTTOM );
@@ -87,12 +89,20 @@ public class BarraHerramientasCrupier extends JToolBar{
 		this.add(button8);		
 		this.addSeparator();
 		
-		button9 = new JButton(hasStrings ? "      Loguearse      " : null, Utilidades.getIcon("salir"));
+		button9 = new JButton(hasStrings ? "   Salir   " : null, Utilidades.getIcon("salir"));
 		button9.addActionListener(new ManejadorEventos());
-		button9.setToolTipText("Loguearse");
+		button9.setToolTipText("Salir");
 		button9.setVerticalTextPosition( SwingConstants.BOTTOM );
 		button9.setHorizontalTextPosition( SwingConstants.CENTER );
 		this.add(button9);		
+		this.addSeparator();
+		
+		button10 = new JButton(hasStrings ? " Realizar jugada " : null, Utilidades.getIcon("salir"));
+		button10.addActionListener(new ManejadorEventos());
+		button10.setToolTipText("Salir");
+		button10.setVerticalTextPosition( SwingConstants.BOTTOM );
+		button10.setHorizontalTextPosition( SwingConstants.CENTER );
+		this.add(button10);		
 		this.addSeparator();
 
 		
@@ -102,51 +112,43 @@ public class BarraHerramientasCrupier extends JToolBar{
 	// Clase interna para manejar los eventos de los botones
 	public class ManejadorEventos implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			int opt = 0;
 			
-			switch((String)e.getSource())
-			{
-				case "button1": opt = 1; break;
-				case "button2": opt = 2; break;
-				case "button3": opt = 3; break;
-				case "button4": opt = 4; break;
-				case "button5": opt = 5; break;
-				case "button6": opt = 6; break;
-				case "button7": opt = 7; break;
-				case "button8": opt = 0; break;
-				case "button9": opt = 9; break;
-				default: opt = 0;
-			}
-			
-				if(opt >= 1)
-					ventana.getPan().setPanel(opt);
-				else
-					ventana.dispose();
-					
-//			    if (e.getSource() == button1){
-//					ventana.getPan().setPanel(1);	
-//				}
-//				if (e.getSource() == button2){
-//					ventana.getPan().setPanel(2);
-//				}
-//				if (e.getSource() == button3){
-//					ventana.getPan().setPanel(3);
-//				}				
-//				if (e.getSource() == button4){
-//					ventana.getPan().setPanel(4);					 
-//				}
-//				if (e.getSource() == button5){
-//					ventana.getPan().setPanel(5);
-//				}
-//				if (e.getSource() == button6){
-//					ventana.getPan().setPanel(6);
-//				}	
-//				if (e.getSource() == button7){
-//					ventana.getPan().setPanel(7);					 
-//				}
-//				if (e.getSource() == button8){
-//					ventana.dispose();					 
-//				}
+			    if (e.getSource() == button1){
+					ventana.getPan().setPanel(1);	
+				}
+				if (e.getSource() == button2){
+					ventana.getPan().setPanel(2);
+				}
+				if (e.getSource() == button3){
+					ventana.getPan().setPanel(3);
+				}				
+				if (e.getSource() == button4){
+					ventana.getPan().setPanel(4);					 
+				}
+				if (e.getSource() == button5){
+					ventana.getPan().setPanel(5);
+				}
+				if (e.getSource() == button6){
+					ventana.getPan().setPanel(6);
+				}	
+				if (e.getSource() == button7){
+					ventana.getPan().setPanel(7);					 
+				}
+				if (e.getSource() == button6){
+					ventana.getPan().setPanel(6);
+				}
+				if (e.getSource() == button7){
+					ventana.getPan().setPanel(7);
+				}	
+				if (e.getSource() == button8){
+					ventana.getPan().setPanel(8);					 
+				}
+				if (e.getSource() == button9){
+					ventana.dispose();					 
+				}
+				if (e.getSource() == button10){
+					ventana.getPan().setPanel(10);					 
+				}
 			
 		};
 	};

@@ -1,4 +1,4 @@
-package PresentacionCliente;
+package PresentacionCliente.Vistas;
 
 import java.awt.BorderLayout;
 import java.rmi.RemoteException;
@@ -6,9 +6,16 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.LayoutManager;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 import org.jdesktop.swingx.JXPanel;
+
+import PresentacionCliente.BarraHerramientasJugadores;
+import PresentacionCliente.PanelCentral;
+import PresentacionCliente.StatusBar;
+
 import java.awt.Toolkit;
 
 public class FrmPrincipalJugadores extends JFrame {

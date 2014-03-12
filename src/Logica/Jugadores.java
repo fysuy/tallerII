@@ -3,9 +3,12 @@ package Logica;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.swing.JOptionPane;
 
 public class Jugadores implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -70,6 +73,19 @@ public class Jugadores implements Serializable {
 			return arregloDataVisualizarCartas;
 		}
 		
+		public DataCarta[] VisualizarCartas2(int codigoJugador) {
+			Jugador jugador = find(codigoJugador);
+			Cartas cartas = new Cartas();
+			cartas = jugador.getCartas();
+			DataCarta arregloDataCarta[] = {};
+			
+			for(int i=0; i<cartas.tope; i++)
+			{
+				arregloDataCarta[i] = new DataCarta(cartas.arregloCartas[i].getPalo(), cartas.arregloCartas[i].getValor(), cartas.arregloCartas[i].getValorEnJuego());
+			}
+			return arregloDataCarta;
+		}
+		
 		public DataListarJugadoresPartidas[] listarJugadores()
 		{
 			Facade fac;
@@ -81,6 +97,18 @@ public class Jugadores implements Serializable {
 				return data;
 			} catch (RemoteException e) {
 				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+		
+		public DataJugador[] listarTodoJugadores(Jugadores jugadores)
+		{
+			Facade fac;
+			try {
+				DataJugador data[] = jugadores.obtenerJugadores();
+				return data;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

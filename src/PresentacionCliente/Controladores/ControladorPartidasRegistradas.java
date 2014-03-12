@@ -1,4 +1,4 @@
-package PresentacionCliente;
+package PresentacionCliente.Controladores;
 
 import java.rmi.RemoteException;
 import Logica.DataPartida;
@@ -9,16 +9,15 @@ public class ControladorPartidasRegistradas {
 
 	private IFacadeLogica fac;
 		
-	public ControladorPartidasRegistradas(){
-		super();
+	public ControladorPartidasRegistradas(IFacadeLogica f){
+		this.fac = f;
 	}
 
 	public DataPartida[] ListarPartidasRegistradas(){
 		
 		DataPartida arregloPartidas[] = null;
 			try {
-				fac = Facade.getInstance();
-				arregloPartidas = fac.listarPartidas();
+				arregloPartidas = this.fac.listarPartidas();
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			} catch (Exception e) {

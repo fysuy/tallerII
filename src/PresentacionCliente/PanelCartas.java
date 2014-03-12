@@ -1,11 +1,16 @@
 package PresentacionCliente;
 
 import java.awt.BorderLayout;
+
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
 import org.jdesktop.swingx.JXTaskPane;
+
+import PresentacionCliente.Vistas.FrmPrincipalJugadores;
+
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 

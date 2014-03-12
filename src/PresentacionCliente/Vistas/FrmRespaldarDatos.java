@@ -1,4 +1,4 @@
-package PresentacionCliente;
+package PresentacionCliente.Vistas;
 
 import java.awt.Color;
 
@@ -17,6 +17,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import Logica.Facade;
+import PresentacionCliente.Utilidades;
+import PresentacionCliente.Controladores.ControladorRespaldarDatos;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;

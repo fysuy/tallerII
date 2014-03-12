@@ -21,8 +21,12 @@ public interface IFacadeLogica extends Remote{
 	public void IniciarNuevaPartida(String codigo) throws RemoteException, PartidaNoExisteException, HayPartidasIniciadasException;
 	public void BarajarCartas() throws RemoteException;
 	public boolean HayAlgunaPartidaIniciada() throws RemoteException;
+	public Partida PartidaEnCurso() throws RemoteException, PartidaNoHayEnCursoException;
 	public void BajarCartasAlMazo() throws RemoteException; 
 	public DataVisualizarCartas[] VisualizarCartas() throws RemoteException;
+	
+	public DataCarta[] VisualizarCartas2(int codigoJugador) throws RemoteException;
+	
 	public void RespaldarDatos() throws RemoteException;
 	public boolean MazoCreado() throws RemoteException;
 	public boolean quedanCartas() throws RemoteException;
@@ -36,6 +40,7 @@ public interface IFacadeLogica extends Remote{
 	public DataPartida ObtenerDataPartidaEnCurso()  throws RemoteException;
 	public int CantidadJugadoresNoEliminados(DataPartida dataPartidaActual) throws RemoteException;
 	public boolean estaIniciada(String codigo) throws RemoteException;
+	public DataJugador[] listarTodoJugadores() throws RemoteException, PartidaNoHayEnCursoException;
 	
 
 }

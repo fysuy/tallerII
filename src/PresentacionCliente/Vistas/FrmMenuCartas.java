@@ -1,11 +1,16 @@
-package PresentacionCliente;
+package PresentacionCliente.Vistas;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
+
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
+
+import PresentacionCliente.PanelCartas;
+import PresentacionCliente.Controladores.ControladorVisualizarCartas;
 
 @SuppressWarnings("serial")
 public class FrmMenuCartas extends JScrollPane {

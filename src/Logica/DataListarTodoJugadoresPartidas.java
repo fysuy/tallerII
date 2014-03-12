@@ -1,9 +1,6 @@
 package Logica;
-import java.io.Serializable;
 
-import javax.swing.JOptionPane;
-
-public class Jugador implements Serializable {
+public class DataListarTodoJugadoresPartidas {
 	private static final long serialVersionUID = 1L;
 	private int numero;
 	private String nombre;
@@ -12,8 +9,8 @@ public class Jugador implements Serializable {
 	private boolean eliminado;
 	private Cartas cartas;
 	
-	public Jugador(int numero, String nombre, int puntos, boolean enturno,
-	    boolean eliminado, Cartas cartas) {
+	
+	public DataListarTodoJugadoresPartidas(int numero, String nombre, int puntos) {
 		super();
 		this.numero = numero;
 		this.nombre = nombre;
@@ -26,40 +23,26 @@ public class Jugador implements Serializable {
 	public Cartas getCartas() {
 		return cartas;
 	}
-	
-	public void setCartas(Cartas cartas){
-		this.cartas = cartas;
-	}
-	
+		
 	public int getNumero() {
 		return numero;
-	}
-	public void setNumero(int numero) {
-		this.numero = numero;
 	}
 	
 	public String getNombre() {
 		return nombre;
 	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+	
 	public int getPuntos() {
 		return puntos;
 	}
-	public void setPuntos(int puntos) {
-		this.puntos = puntos;
-	}
+	
 	public boolean isEnturno() {
 		return enturno;
 	}
-	public void setEnturno(boolean enturno) {
-		this.enturno = enturno;
-	}
+	
 	public boolean isEliminado() {
 		return eliminado;
 	}
-	public void setEliminado(boolean eliminado) {
-		this.eliminado = eliminado;
-	}
+	
+
 }

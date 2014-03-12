@@ -1,12 +1,24 @@
 package PresentacionCliente;
 
 import java.awt.BorderLayout;
+
 import javax.swing.JPanel;
+
+import Logica.IFacadeLogica;
+import PresentacionCliente.Vistas.FrmIniciarPartida;
+import PresentacionCliente.Vistas.FrmIniciarTurnoDeUnJugador;
+import PresentacionCliente.Vistas.FrmListarJugadores;
+import PresentacionCliente.Vistas.FrmListarTodoCartasDeUnJugadores;
+import PresentacionCliente.Vistas.FrmListarTodoJugadores;
+import PresentacionCliente.Vistas.FrmNuevaPartida;
+import PresentacionCliente.Vistas.FrmPartidasRegistradas;
+import PresentacionCliente.Vistas.FrmRealizarJugada;
 
 public class PanelCentral extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel pan;
+	
 	public PanelCentral() {
 		PanelCentralInicio panelCentralInicio = new PanelCentralInicio();
 		this.setLayout(new BorderLayout());
@@ -38,20 +50,20 @@ public class PanelCentral extends JPanel{
 				pan = listarJugadores.getPanel();
 				break;
 			case 6:
-				FrmRespaldarDatos respaldarDatos = new FrmRespaldarDatos();
-				pan = respaldarDatos.getPanel();
+				FrmListarTodoJugadores listarTodoJugadores = new FrmListarTodoJugadores();
+				pan = listarTodoJugadores.getPanel();				
 				break;	
 			case 7:
 				//NuevaPartida nuevaPartida = new NuevaPartida();Configuracion
 				//pan = nuevaPartida.getPanel();
 				break;	
 			case 8:
-				//NuevaPartida nuevaPartida = new NuevaPartida();Salir
-				//pan = nuevaPartida.getPanel();
+				FrmListarTodoCartasDeUnJugadores listarTodoCartasDeUnJugadores = new FrmListarTodoCartasDeUnJugadores();
+				pan = listarTodoCartasDeUnJugadores.getPanel();
 				break;
 			case 10:
-				PanelCentralInicio panelCentralInicio = new PanelCentralInicio();
-				pan = panelCentralInicio.getPanel();
+				FrmRealizarJugada realizarJugada = new FrmRealizarJugada();
+				pan = realizarJugada.getPanel();
 				break;		
 		} 
 		

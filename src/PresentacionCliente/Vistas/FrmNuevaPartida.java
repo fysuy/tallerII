@@ -1,4 +1,4 @@
-package PresentacionCliente;
+package PresentacionCliente.Vistas;
 
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -20,6 +20,11 @@ import javax.swing.border.MatteBorder;
 import java.awt.Color;
 
 import javax.swing.border.TitledBorder;
+
+import PresentacionCliente.FacadeDispatcher;
+import PresentacionCliente.TablasColor;
+import PresentacionCliente.Utilidades;
+import PresentacionCliente.Controladores.ControladorNuevaPartida;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -44,6 +49,7 @@ public class FrmNuevaPartida extends JPanel {
 	private JButton buttonError1;
 	private JButton buttonError2;
 	
+	private FacadeDispatcher facadeDispatcher = new FacadeDispatcher();
 	
 	public FrmNuevaPartida() {
 
@@ -213,7 +219,7 @@ public class FrmNuevaPartida extends JPanel {
 	    for (int i = 0 ; i < nRow ; i++)
 	    	arrayNombres[i] = (String)modeloNombres.getValueAt(i, 0);
 	    
-	    controladorNuevaPartida = new ControladorNuevaPartida();
+	    controladorNuevaPartida = new ControladorNuevaPartida(facadeDispatcher.getFacade());
 	    controladorNuevaPartida.NuevaPartida(codigoPartida, arrayNombres);
 	   /* 
 	    System.out.println("Listo nuevamente las partidas");
@@ -235,12 +241,12 @@ public class FrmNuevaPartida extends JPanel {
 	}
 	
 	public boolean HayPartidaIniciada(){
-		controladorNuevaPartida = new ControladorNuevaPartida();
+		controladorNuevaPartida = new ControladorNuevaPartida(facadeDispatcher.getFacade());
 		return controladorNuevaPartida.HayPartidaIniciada();
 	}
 	
 	public boolean ExistePartida(String codigo){
-		controladorNuevaPartida = new ControladorNuevaPartida();
+		controladorNuevaPartida = new ControladorNuevaPartida(facadeDispatcher.getFacade());
 		return controladorNuevaPartida.ExistePartida(codigo);
 	}
 	

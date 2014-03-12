@@ -1,15 +1,25 @@
-package PresentacionCliente;
+package PresentacionCliente.Vistas;
 
 import java.awt.Color;
+
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+
+import javax.swing.UIManager;
+
+import Excepciones.PartidaNoHayEnCursoException;
+import PresentacionCliente.FacadeDispatcher;
+import PresentacionCliente.Utilidades;
+import PresentacionCliente.Controladores.ControladorIniciarTurnoJugador;
 
 public class FrmIniciarTurnoDeUnJugador extends JPanel {
 	
@@ -19,6 +29,7 @@ public class FrmIniciarTurnoDeUnJugador extends JPanel {
 	private JButton btnCancelar;
 	private JButton button;
 	private ControladorIniciarTurnoJugador controladorIniciarTurnoJugador;
+	private FacadeDispatcher facadeDispatcher = new FacadeDispatcher();
 	
 	public FrmIniciarTurnoDeUnJugador() {
 		
@@ -34,8 +45,14 @@ public class FrmIniciarTurnoDeUnJugador extends JPanel {
 		btnIniciar = new JButton("Iniciar");
 		btnIniciar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controladorIniciarTurnoJugador = new ControladorIniciarTurnoJugador();
-				controladorIniciarTurnoJugador.IniciarTurnoJugador();
+				controladorIniciarTurnoJugador = new ControladorIniciarTurnoJugador(facadeDispatcher.getFacade());
+				try {
+					controladorIniciarTurnoJugador.IniciarTurnoJugador();
+				} catch (PartidaNoHayEnCursoException e1) {
+					JOptionPane.showMessageDialog(null, "--> " + e1.toString(), "ERROR!", JOptionPane.ERROR_MESSAGE);
+				}
+				contentPane.removeAll();
+				contentPane.updateUI();	
 					
 			}
 
@@ -54,12 +71,14 @@ public class FrmIniciarTurnoDeUnJugador extends JPanel {
 		btnCancelar.setBounds(390, 330, 89, 23);
 		contentPane.add(btnCancelar);
 		
-		button = new JButton("", Utilidades.getIcon("Pregunta"));
-		button.setBounds(198, 46, 281, 222);
+		button = new JButton("", Utilidades.getIcon("Pregunta1"));
+		button.setBackground(UIManager.getColor("Panel.background"));
+		button.setBounds(258, 139, 138, 129);
 		button.setOpaque(false);
 		button.setContentAreaFilled(false);
 		button.setBorderPainted(false);
 		contentPane.add(button);
+
 		
 		JLabel lblDeceaIniciarEl = new JLabel("Decea iniciar el turno del pr\u00F3ximo jugador ?");
 		lblDeceaIniciarEl.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));

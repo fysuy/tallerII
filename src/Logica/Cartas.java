@@ -6,12 +6,12 @@ import java.util.Random;
 public class Cartas implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	static final int cantidadCartas = 52;
+	static final int cantidadCartas = 48;
 	Carta arregloCartas[];
 	int tope;
 	
-	static final String[] valor = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
-    static final String[] palo = {"Picas", "Corazones", "Diamantes", "Treboles"};
+	static final String[] valor = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "J", "Q", "K"};
+    static final String[] palo = {"Picas", "Corazones", "Diamante", "Trebol"};
 		
 	public Cartas()
 	{ 
@@ -56,7 +56,6 @@ public class Cartas implements Serializable {
 	            for (int j = 0; j < valor.length; j++) {
 	            	this.arregloCartas[tope] = new Carta(palo[i], valor[j], j+1);
 	            	this.tope++;
-	           
 	            }
 	        }	
 	}
@@ -90,13 +89,12 @@ public class Cartas implements Serializable {
 	}
 	
 	public int darCarta(Jugador jugador){
-
-		Carta carta = arregloCartas[this.tope];
+		
+		Carta carta = arregloCartas[this.tope - 1];
 		borrarCarta();
 		Cartas cartas = jugador.getCartas();
 		cartas.tope++;
 		cartas.arregloCartas[cartas.tope] = carta;
-				
 		return carta.getValorEnJuego();
 	}
 	

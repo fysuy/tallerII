@@ -1,41 +1,38 @@
-package PresentacionCliente;
+package PresentacionCliente.Vistas;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.rmi.RemoteException;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.LayoutManager;
 
-import javax.swing.ImageIcon;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.border.EmptyBorder;
 
 import org.jdesktop.swingx.JXPanel;
+
+import PresentacionCliente.BarraHerramientasCrupier;
+import PresentacionCliente.PanelCentral;
+import PresentacionCliente.StatusBar;
+
 import java.awt.Toolkit;
 
-public class FrmPrincipal extends JFrame {
+public class FrmPrincipalCrupier extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	//private JPanel contentPane;
 
 	private JPanel mainPanel; 
 	private PanelCentral panelCentral;
-	private final BarraHerramientas barraHerramientas;
-	
-	//private final TaskMenu scrollPane;
+	private final BarraHerramientasCrupier barraHerramientas;
 	private final JXPanel jxPanel;
 
-	public FrmPrincipal()throws RemoteException {
+	public FrmPrincipalCrupier()throws RemoteException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		this.setResizable(false);		
-
-		barraHerramientas = new BarraHerramientas("", 22, true, this);
+		barraHerramientas = new BarraHerramientasCrupier("", 22, true, this);
 		jxPanel = new JXPanel(new BorderLayout());
 		StatusBar statusBar = new StatusBar();
 		panelCentral = new PanelCentral();
@@ -76,7 +73,7 @@ public class FrmPrincipal extends JFrame {
 		jxPanel.add(statusBar, BorderLayout.SOUTH);
 		getContentPane().add(jxPanel, BorderLayout.CENTER);
 		
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage(FrmPrincipal.class.getResource("/Iconos/FondoAzul.png")));
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage(FrmPrincipalCrupier.class.getResource("/Iconos/FondoAzul.png")));
 		this.setSize(950, 500);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

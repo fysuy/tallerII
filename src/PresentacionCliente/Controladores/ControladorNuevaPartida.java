@@ -1,4 +1,4 @@
-package PresentacionCliente;
+package PresentacionCliente.Controladores;
 
 import java.rmi.RemoteException;
 
@@ -11,17 +11,15 @@ public class ControladorNuevaPartida {
 	private IFacadeLogica fac;
 	private DataCrearNuevaPartida dataCrearNuevaPartida;
 	
-	public ControladorNuevaPartida(){
-		super();
+	public ControladorNuevaPartida(IFacadeLogica f){
+		this.fac = f;
 	}
 	
 	public void NuevaPartida(String codigoPartida, String[] arregloNombres){
-		
 		try 
 		{			
 			dataCrearNuevaPartida = new DataCrearNuevaPartida(codigoPartida, arregloNombres);
-			fac = Facade.getInstance();
-			fac.CrearNuevaPartida(dataCrearNuevaPartida);
+			this.fac.CrearNuevaPartida(dataCrearNuevaPartida);
 		}
 		catch (Exception e) { e.printStackTrace(); }		
 	}

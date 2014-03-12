@@ -1,4 +1,4 @@
-package PresentacionCliente;
+package PresentacionCliente.Vistas;
 
 import java.awt.Color;
 
@@ -12,7 +12,12 @@ import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+
 import Logica.DataPartida;
+import PresentacionCliente.FacadeDispatcher;
+import PresentacionCliente.TablasColor;
+import PresentacionCliente.Controladores.ControladorPartidasRegistradas;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
@@ -28,6 +33,7 @@ public class FrmPartidasRegistradas extends JPanel {
 	private DefaultTableModel modeloPartidasRegistradas;
 	private ControladorPartidasRegistradas controladorPartidasRegistradas;
 	private JLabel lblPartidasRegistradas;
+	private FacadeDispatcher facadeDispatcher = new FacadeDispatcher();
 		
 	public FrmPartidasRegistradas() {
 		
@@ -84,7 +90,7 @@ public class FrmPartidasRegistradas extends JPanel {
 	
 	public void MostrarInforme()
 	{
-		controladorPartidasRegistradas = new ControladorPartidasRegistradas();		
+		controladorPartidasRegistradas = new ControladorPartidasRegistradas(facadeDispatcher.getFacade());		
 		DataPartida arregloPartidas[] = controladorPartidasRegistradas.ListarPartidasRegistradas();
 		
 		String enCurso, finalizada;
