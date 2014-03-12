@@ -1,36 +1,34 @@
 package PresentacionCliente.Controladores;
 
 import java.rmi.RemoteException;
-
+import java.rmi.server.UnicastRemoteObject;
 import Logica.DataPartida;
 import Logica.DataRealizarJugada;
-import Logica.Facade;
 import Logica.IFacadeLogica;
 import Logica.Partida;
 
-public class ControladorRealizarJugada {
+@SuppressWarnings("serial")
+public class ControladorRealizarJugada extends UnicastRemoteObject implements IControladorRealizarJugada {
 	private IFacadeLogica fac;
 	
-	public ControladorRealizarJugada(IFacadeLogica f){
+	public ControladorRealizarJugada(IFacadeLogica f) throws RemoteException {
 		this.fac = f;
 	}
 	
-	public void RealizarJugada(DataRealizarJugada dataRealizarJugada){
-		try {
+	public void RealizarJugada(DataRealizarJugada dataRealizarJugada) throws RemoteException {
+		try 
+		{
 			this.fac.RealizarJugada(dataRealizarJugada);
 		}
-		catch (RemoteException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		catch (RemoteException e) { e.printStackTrace(); throw e; } 
+		catch (Exception e) { e.printStackTrace(); }	
 	}
-	
 
-	public DataPartida Partida(){
-		try {
-			fac = Facade.getInstance();
-			Partida par = fac.PartidaEnCurso();
+	public DataPartida Partida() throws RemoteException {
+		try 
+		{
+			//TODO: Debe devolver una datapartida ya desde facade
+			Partida par = this.fac.PartidaEnCurso();
 			DataPartida data = new DataPartida(
 					par.getCodigo(),
 					par.getProximoJugador(),
@@ -41,15 +39,13 @@ public class ControladorRealizarJugada {
 					);
 			return data;
 		} 
-		catch (RemoteException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		catch (RemoteException e) { e.printStackTrace(); throw e; } 
+		catch (Exception e) { e.printStackTrace(); }	
+		
 		return null;
 	}
 	
-	
+	//TODO: para que esta esto?????
 	public void QuiereCarta(DataRealizarJugada data){
 		data.setPideCarta(true);
 	}

@@ -68,7 +68,7 @@ public class FrmRealizarJugada extends JPanel {
 	
 	public void QuiereCarta(DataRealizarJugada data){
 		controladorRealizarJugada = new ControladorRealizarJugada(facadeDispatcher.getFacade());
-		controladorRealizarJugada.QuiereCarta(data);
+		controladorRealizarJugada.QuiereCarta(data); //TODO: para que esta esto?????
 	}
 
 	public JPanel getPanel(){			

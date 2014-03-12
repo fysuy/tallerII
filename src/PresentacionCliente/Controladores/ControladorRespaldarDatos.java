@@ -1,22 +1,20 @@
 package PresentacionCliente.Controladores;
 
 import java.rmi.RemoteException;
-import java.util.Calendar;
+import java.rmi.server.UnicastRemoteObject;
 
-import Logica.DataCrearNuevaPartida;
-import Logica.Facade;
 import Logica.IFacadeLogica;
 
-public class ControladorRespaldarDatos {
+@SuppressWarnings("serial")
+public class ControladorRespaldarDatos extends UnicastRemoteObject implements IControladorRespaldarDatos {
 
 	private IFacadeLogica fac;
 		
-	public ControladorRespaldarDatos(){
-		super();
+	public ControladorRespaldarDatos(IFacadeLogica facade) throws RemoteException {
+		this.fac = facade;
 	}
 	
-	public void RespaldarDatos()
-	{	
+	public void RespaldarDatos() throws RemoteException {	
 		try 
 		{
 			this.fac.RespaldarDatos();

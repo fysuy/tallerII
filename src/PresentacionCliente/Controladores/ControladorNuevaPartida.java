@@ -1,62 +1,47 @@
 package PresentacionCliente.Controladores;
 
 import java.rmi.RemoteException;
-
+import java.rmi.server.UnicastRemoteObject;
 import Logica.DataCrearNuevaPartida;
-import Logica.Facade;
 import Logica.IFacadeLogica;
 
-public class ControladorNuevaPartida {
+@SuppressWarnings("serial")
+public class ControladorNuevaPartida extends UnicastRemoteObject implements IControladorNuevaPartida {
 
 	private IFacadeLogica fac;
-	private DataCrearNuevaPartida dataCrearNuevaPartida;
 	
-	public ControladorNuevaPartida(IFacadeLogica f){
+	public ControladorNuevaPartida(IFacadeLogica f) throws RemoteException {
 		this.fac = f;
 	}
 	
-	public void NuevaPartida(String codigoPartida, String[] arregloNombres){
+	public void NuevaPartida(String codigoPartida, String[] arregloNombres) throws RemoteException {
 		try 
 		{			
-			dataCrearNuevaPartida = new DataCrearNuevaPartida(codigoPartida, arregloNombres);
-			this.fac.CrearNuevaPartida(dataCrearNuevaPartida);
+			this.fac.CrearNuevaPartida(new DataCrearNuevaPartida(codigoPartida, arregloNombres));
 		}
-		catch (Exception e) { e.printStackTrace(); }		
+		catch (RemoteException e) { e.printStackTrace(); throw e; } 
+		catch (Exception e) { e.printStackTrace(); }	
 	}
 	
-	public boolean HayPartidaIniciada(){
-		try {
-			fac = Facade.getInstance();
-			if(fac.HayAlgunaPartidaIniciada())
-				return true;
-			else
-				return false;
+	public boolean HayPartidaIniciada() throws RemoteException {
+		try 
+		{
+			return this.fac.HayAlgunaPartidaIniciada();
 		} 
-		catch (RemoteException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		catch (RemoteException e) { e.printStackTrace(); throw e; } 
+		catch (Exception e) { e.printStackTrace(); }	
+		
 		return false;
 	}
 	
-	
-	public boolean ExistePartida(String codigo){ // HACERRRRRRRRRRRRRRRRRRR
-		try {
-			fac = Facade.getInstance();
-			if(fac.ExistePartida(codigo))
-				return true;
-			else
-				return false;
+	public boolean ExistePartida(String codigo) throws RemoteException { //TODO:  
+		try 
+		{
+			return this.fac.ExistePartida(codigo);
 		} 
-		catch (RemoteException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		catch (RemoteException e) { e.printStackTrace(); throw e; } 
+		catch (Exception e) { e.printStackTrace(); }
+		
 		return false;
 	}
-	
-	
-	
 }
