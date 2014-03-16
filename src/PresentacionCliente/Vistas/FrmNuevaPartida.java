@@ -28,6 +28,7 @@ import PresentacionCliente.Controladores.ControladorNuevaPartida;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.rmi.RemoteException;
 
 public class FrmNuevaPartida extends JPanel {
 
@@ -43,7 +44,6 @@ public class FrmNuevaPartida extends JPanel {
 	private JPanel panel_1;
 	private JButton btnCrear;
 	private JButton btnCancelar;
-	private FrmPrincipalCrupier ventana;
 	
 	private ControladorNuevaPartida controladorNuevaPartida;
 	private JButton buttonError1;
@@ -53,6 +53,12 @@ public class FrmNuevaPartida extends JPanel {
 	
 	public FrmNuevaPartida() {
 
+		try {
+			controladorNuevaPartida = new ControladorNuevaPartida(facadeDispatcher.getFacade());
+		} catch (RemoteException e1) {
+			e1.printStackTrace();
+		}
+		
 		setBounds(100, 500, 853, 343);
 		contentPane = new JPanel();
 		contentPane.setBorder(new TitledBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)), "eeee", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -219,8 +225,13 @@ public class FrmNuevaPartida extends JPanel {
 	    for (int i = 0 ; i < nRow ; i++)
 	    	arrayNombres[i] = (String)modeloNombres.getValueAt(i, 0);
 	    
-	    controladorNuevaPartida = new ControladorNuevaPartida(facadeDispatcher.getFacade());
-	    controladorNuevaPartida.NuevaPartida(codigoPartida, arrayNombres);
+	    
+	    try {
+			controladorNuevaPartida.NuevaPartida(codigoPartida, arrayNombres);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	   /* 
 	    System.out.println("Listo nuevamente las partidas");
 		System.out.println("=============================");
@@ -241,13 +252,23 @@ public class FrmNuevaPartida extends JPanel {
 	}
 	
 	public boolean HayPartidaIniciada(){
-		controladorNuevaPartida = new ControladorNuevaPartida(facadeDispatcher.getFacade());
-		return controladorNuevaPartida.HayPartidaIniciada();
+		boolean result = false;
+		try {
+			result = controladorNuevaPartida.HayPartidaIniciada();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
 	public boolean ExistePartida(String codigo){
-		controladorNuevaPartida = new ControladorNuevaPartida(facadeDispatcher.getFacade());
-		return controladorNuevaPartida.ExistePartida(codigo);
+		boolean result = false;
+		try {
+			result = controladorNuevaPartida.ExistePartida(codigo);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
 	public JPanel getPanel(){		

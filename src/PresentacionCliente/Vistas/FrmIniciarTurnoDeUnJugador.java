@@ -13,6 +13,7 @@ import javax.swing.border.TitledBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import java.rmi.RemoteException;
 
 import javax.swing.UIManager;
 
@@ -45,12 +46,15 @@ public class FrmIniciarTurnoDeUnJugador extends JPanel {
 		btnIniciar = new JButton("Iniciar");
 		btnIniciar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controladorIniciarTurnoJugador = new ControladorIniciarTurnoJugador(facadeDispatcher.getFacade());
 				try {
+					controladorIniciarTurnoJugador = new ControladorIniciarTurnoJugador(facadeDispatcher.getFacade());
 					controladorIniciarTurnoJugador.IniciarTurnoJugador();
 				} catch (PartidaNoHayEnCursoException e1) {
 					JOptionPane.showMessageDialog(null, "--> " + e1.toString(), "ERROR!", JOptionPane.ERROR_MESSAGE);
+				} catch (RemoteException e2) {
+					e2.printStackTrace();
 				}
+				
 				contentPane.removeAll();
 				contentPane.updateUI();	
 					

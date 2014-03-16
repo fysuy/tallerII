@@ -24,6 +24,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class FrmIniciarPartida extends JPanel {
 
@@ -84,11 +88,17 @@ public class FrmIniciarPartida extends JPanel {
 						JOptionPane.showMessageDialog (null, "La partida ya se encuentra iniciada", "Error", JOptionPane.ERROR_MESSAGE);
 					else if(HayPartidaIniciada())
 						JOptionPane.showMessageDialog (null, "Ya hay una partida iniciada", "Error", JOptionPane.ERROR_MESSAGE);
-					else{
-					controladorIniciarPartida = new ControladorIniciarPartida(facadeDispatcher.getFacade());
-					controladorIniciarPartida.IniciarNuevaPartida(codigoPartida);
-					contentPane.removeAll();
-					contentPane.updateUI();
+					else
+					{
+						try {
+							controladorIniciarPartida = new ControladorIniciarPartida(facadeDispatcher.getFacade());
+							controladorIniciarPartida.IniciarNuevaPartida(codigoPartida);
+						} catch (RemoteException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						contentPane.removeAll();
+						contentPane.updateUI();
 					}
 				}
 				else
@@ -133,40 +143,64 @@ public class FrmIniciarPartida extends JPanel {
 		//String d = tablaIniciarPartida.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		String codigoPartida = (String) tablaIniciarPartida.getValueAt(row_selected, 0);
 		System.out.println("codigoPartida: " + codigoPartida);
-		controladorIniciarPartida = new ControladorIniciarPartida(facadeDispatcher.getFacade());
-		if (row_selected >= 0)
-		{
-			System.out.println("row_selected_1");
-			controladorIniciarPartida.IniciarNuevaPartida(codigoPartida);
-			System.out.println("row_selected_2");
+		try {
+			controladorIniciarPartida = new ControladorIniciarPartida(facadeDispatcher.getFacade());
+			if (row_selected >= 0)
+			{
+				System.out.println("row_selected_1");
+				controladorIniciarPartida.IniciarNuevaPartida(codigoPartida);
+				System.out.println("row_selected_2");
+			}
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
 	
-	public boolean PartidaYaIniciada(String codigo){
-		controladorIniciarPartida = new ControladorIniciarPartida(facadeDispatcher.getFacade());
-		return controladorIniciarPartida.PartidaYaIniciada(codigo);
+	public boolean PartidaYaIniciada(String codigo) {
+		boolean result = true;
+		try {
+			controladorIniciarPartida = new ControladorIniciarPartida(facadeDispatcher.getFacade());
+			result = controladorIniciarPartida.PartidaYaIniciada(codigo);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 	
-	public boolean HayPartidaIniciada(){
-		controladorIniciarPartida = new ControladorIniciarPartida(facadeDispatcher.getFacade());
-		return controladorIniciarPartida.HayPartidaIniciada();
+	public boolean HayPartidaIniciada() {
+		boolean result = true;
+		try {
+			controladorIniciarPartida = new ControladorIniciarPartida(facadeDispatcher.getFacade());
+			result = controladorIniciarPartida.HayPartidaIniciada();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}	
 	
 	public JPanel getPanel(){		
 		
-		controladorListarPartida = new ControladorListarPartida(facadeDispatcher.getFacade());		
-		String arregloCodigosPartidas[] = controladorListarPartida.ListarPartidas();
+		List<String> arregloCodigosPartidas = new ArrayList<String>();
+		
+		try {
+			controladorListarPartida = new ControladorListarPartida(facadeDispatcher.getFacade());		
+			arregloCodigosPartidas = Arrays.asList(controladorListarPartida.ListarPartidas());
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 		
 		String []columnas = {"CÓDIGO"};
 		String [][]matrizDatos = {};
 		modeloIniciarPartida = new DefaultTableModel(matrizDatos, columnas);
 		
-		for (int i=0;i<arregloCodigosPartidas.length;i++){
-			
-	        Object nuevaFila[]= {arregloCodigosPartidas[i]};
+		for (int i=0; i<arregloCodigosPartidas.size(); i++)
+		{
+	        Object nuevaFila[]= { arregloCodigosPartidas.get(i) };
 	        modeloIniciarPartida.addRow(nuevaFila);
-		    }
+	    }
 		
 		tablaIniciarPartida.setModel(modeloIniciarPartida);
 		scrollPane.setViewportView(tablaIniciarPartida);

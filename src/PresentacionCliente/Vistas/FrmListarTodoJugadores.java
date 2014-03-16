@@ -16,13 +16,13 @@ import javax.swing.table.DefaultTableModel;
 
 import Excepciones.PartidaNoHayEnCursoException;
 import Logica.DataJugador;
-import Logica.DataListarJugadoresPartidas;
 import PresentacionCliente.FacadeDispatcher;
 import PresentacionCliente.TablasColor;
 import PresentacionCliente.Controladores.ControladorListarTodoJugadores;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.rmi.RemoteException;
 
 public class FrmListarTodoJugadores extends JPanel {
 	
@@ -37,6 +37,9 @@ public class FrmListarTodoJugadores extends JPanel {
 	private FacadeDispatcher facadeDispatcher = new FacadeDispatcher();
 		
 	public FrmListarTodoJugadores() {
+		try {
+			controladorListarTodoJugadores = new ControladorListarTodoJugadores(facadeDispatcher.getFacade());
+		} catch (RemoteException e2) { e2.printStackTrace(); }
 		
 		setBounds(100, 500, 853, 343);
 		contentPane = new JPanel();
@@ -95,25 +98,27 @@ public class FrmListarTodoJugadores extends JPanel {
 	}
 	
 	public void ListarJugadores() throws PartidaNoHayEnCursoException{
-		controladorListarTodoJugadores = new ControladorListarTodoJugadores(facadeDispatcher.getFacade());
-		DataJugador data[] = {};
-		data = controladorListarTodoJugadores.ListarTodoJugadores();
-		String enTurno = "No";
-		String eliminado = "No";
 		
-		LimpiarTabla();
+		try {
+			DataJugador data[] = {};
+			data = controladorListarTodoJugadores.ListarTodoJugadores();
+			String enTurno = "No";
+			String eliminado = "No";
+			
+			LimpiarTabla();
 
-		for(int i=0; i<data.length; i++){
-			
-			if(data[i].isEliminado())
-				eliminado = "Si";
-			
-			if(data[i].isEnturno())
-				enTurno = "Si";
+			for(int i=0; i<data.length; i++){
 				
-			Object[] nuevaFila = {Integer.toString(data[i].getNumero()), data[i].getNombre(), Integer.toString(data[i].getPuntos()), enTurno, eliminado};
-			modelo.addRow(nuevaFila);
-		}
+				if(data[i].isEliminado())
+					eliminado = "Si";
+				
+				if(data[i].isEnturno())
+					enTurno = "Si";
+					
+				Object[] nuevaFila = {Integer.toString(data[i].getNumero()), data[i].getNombre(), Integer.toString(data[i].getPuntos()), enTurno, eliminado};
+				modelo.addRow(nuevaFila);
+			}
+		} catch (RemoteException e) { e.printStackTrace(); }
 	}
 	
 	void LimpiarTabla(){
@@ -123,9 +128,16 @@ public class FrmListarTodoJugadores extends JPanel {
         }
     }
 	
-	public boolean HayPartidaIniciada(){
-		controladorListarTodoJugadores = new ControladorListarTodoJugadores(facadeDispatcher.getFacade());
-		return controladorListarTodoJugadores.HayPartidaIniciada();
+	public boolean HayPartidaIniciada() {
+		boolean result = false;
+		
+		try {
+			result = controladorListarTodoJugadores.HayPartidaIniciada();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 	
 

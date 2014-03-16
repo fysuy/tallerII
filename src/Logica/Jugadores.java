@@ -10,6 +10,9 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import Excepciones.ElJugadorNoTieneCartasException;
+import Excepciones.HayMenosDeDosJugadoresException;
+
 public class Jugadores implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -26,7 +29,7 @@ public class Jugadores implements Serializable {
 		}
 		
 		public Jugador find (Integer clave)
-		{ 
+		{  
 			return ht.get(clave); 
 		}
 		
@@ -57,7 +60,7 @@ public class Jugadores implements Serializable {
 		}
 		
 		public DataVisualizarCartas[] VisualizarCartas() {
-			DataVisualizarCartas arregloDataVisualizarCartas[] = new DataVisualizarCartas[20]; 
+			DataVisualizarCartas arregloDataVisualizarCartas[] = new DataVisualizarCartas[48]; 
 			List<DataVisualizarCartas> arrAsList = Arrays.asList(arregloDataVisualizarCartas);
 			Iterator<DataVisualizarCartas> iteradorCartas = arrAsList.iterator();
 			DataVisualizarCartas dataVisualizarCartas;
@@ -73,16 +76,22 @@ public class Jugadores implements Serializable {
 			return arregloDataVisualizarCartas;
 		}
 		
-		public DataCarta[] VisualizarCartas2(int codigoJugador) {
-			Jugador jugador = find(codigoJugador);
-			Cartas cartas = new Cartas();
-			cartas = jugador.getCartas();
-			DataCarta arregloDataCarta[] = {};
-			
-			for(int i=0; i<cartas.tope; i++)
+		public DataCarta[] VisualizarCartasCompletas(Integer codigoJugador, Partida partidaEnCurso) throws ElJugadorNoTieneCartasException {
+		
+			Jugador jugador = partidaEnCurso.getJugadores().find(codigoJugador);
+			Cartas cartas = jugador.getCartas();
+			int cantidadCartas = cartas.darTopeDelArreglo();
+			DataCarta arregloDataCarta[] = new DataCarta[cantidadCartas];
+			if(cartas.darTopeDelArreglo() < 1)
+				   throw new ElJugadorNoTieneCartasException("El jugador indicado no tiene cartas");
+			else
 			{
-				arregloDataCarta[i] = new DataCarta(cartas.arregloCartas[i].getPalo(), cartas.arregloCartas[i].getValor(), cartas.arregloCartas[i].getValorEnJuego());
+				for(int i=0; i<cartas.darTopeDelArreglo(); i++)
+				{
+					arregloDataCarta[i] = new DataCarta(cartas.arregloCartas[i].getPalo(), cartas.arregloCartas[i].getValor(), cartas.arregloCartas[i].getValorEnJuego());
+				}
 			}
+			
 			return arregloDataCarta;
 		}
 		

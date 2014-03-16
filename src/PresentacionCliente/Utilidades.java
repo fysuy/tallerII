@@ -67,4 +67,21 @@ public class Utilidades {
 		
 		return jButton;
 	};
+	
+	 public static ImageIcon createImage(String path) {
+		 ClassLoader cl = Thread.currentThread().getContextClassLoader();
+		 URL imgURL = cl.getResource("Iconos/" + path + ".png");
+			if (imgURL != null)
+				return new ImageIcon(imgURL);
+			imgURL = cl.getResource("Iconos/" + path + ".gif");
+			if (imgURL != null)
+				return new ImageIcon(imgURL);
+		    imgURL = cl.getResource("Iconos/" + path + ".jpg");
+		    if (imgURL != null) { 
+		         return new ImageIcon(imgURL);
+	       } else {
+	    	     System.err.println("Couldn't find file: " + path);
+	    	     return null;
+	       }
+	 }
 }

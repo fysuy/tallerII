@@ -4,6 +4,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 import Excepciones.CodigoPartidaRepetidoException;
+import Excepciones.ElJugadorNoTieneCartasException;
+import Excepciones.HayMenosDeDosJugadoresException;
 import Excepciones.HayPartidasIniciadasException;
 import Excepciones.LoginNombreException;
 import Excepciones.PartidaInsuficientesJugadoresException;
@@ -25,7 +27,7 @@ public interface IFacadeLogica extends Remote{
 	public void BajarCartasAlMazo() throws RemoteException; 
 	public DataVisualizarCartas[] VisualizarCartas() throws RemoteException;
 	
-	public DataCarta[] VisualizarCartas2(int codigoJugador) throws RemoteException;
+	public DataCarta[] VisualizarCartasCompletas(int codigoJugador) throws ElJugadorNoTieneCartasException, RemoteException ;
 	
 	public void RespaldarDatos() throws RemoteException;
 	public boolean MazoCreado() throws RemoteException;
@@ -36,9 +38,9 @@ public interface IFacadeLogica extends Remote{
 	public void DarCarta(Jugador jugador) throws RemoteException;
 	public void IniciarTurnoJugador() throws RemoteException, PartidaNoHayEnCursoException;
 	public boolean Login(String nombreJugador) throws RemoteException, PartidaNoHayEnCursoException, LoginNombreException;
-	public void RealizarJugada(DataRealizarJugada dataRealizarJugada) throws RemoteException;
+	public void RealizarJugada(DataRealizarJugada dataRealizarJugada) throws RemoteException,PartidaNoExisteException, HayMenosDeDosJugadoresException;
 	public DataPartida ObtenerDataPartidaEnCurso()  throws RemoteException;
-	public int CantidadJugadoresNoEliminados(DataPartida dataPartidaActual) throws RemoteException;
+	public int CantidadJugadoresNoEliminados(DataPartida dataPartidaActual) throws RemoteException, HayMenosDeDosJugadoresException ;
 	public boolean estaIniciada(String codigo) throws RemoteException;
 	public DataJugador[] listarTodoJugadores() throws RemoteException, PartidaNoHayEnCursoException;
 	

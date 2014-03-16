@@ -21,6 +21,10 @@ import PresentacionCliente.Controladores.ControladorPartidasRegistradas;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class FrmPartidasRegistradas extends JPanel {
 
@@ -36,7 +40,11 @@ public class FrmPartidasRegistradas extends JPanel {
 	private FacadeDispatcher facadeDispatcher = new FacadeDispatcher();
 		
 	public FrmPartidasRegistradas() {
-		
+		try {
+			controladorPartidasRegistradas = new ControladorPartidasRegistradas(facadeDispatcher.getFacade());
+		} catch (RemoteException e1) {
+			e1.printStackTrace();
+		}			
 		setBounds(100, 500, 853, 343);
 		contentPane = new JPanel();
 		contentPane.setBorder(new TitledBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)), "eeee", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -90,22 +98,29 @@ public class FrmPartidasRegistradas extends JPanel {
 	
 	public void MostrarInforme()
 	{
-		controladorPartidasRegistradas = new ControladorPartidasRegistradas(facadeDispatcher.getFacade());		
-		DataPartida arregloPartidas[] = controladorPartidasRegistradas.ListarPartidasRegistradas();
+		List<DataPartida> partidas = new ArrayList<DataPartida>();
+		
+		DataPartida arregloPartidas[];
+		try {
+			partidas = Arrays.asList(controladorPartidasRegistradas.ListarPartidasRegistradas());
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 		
 		String enCurso, finalizada;
-		for (int i=0;i<arregloPartidas.length;i++){
-				
-			if(arregloPartidas[i].isEnCurso())
+		DataPartida data;
+		for (int i=0; i<partidas.size(); i++){
+				data = partidas.get(i);
+			if(data.isEnCurso())
 				enCurso = "SI";
 			else
 				enCurso = "NO";
-			if(arregloPartidas[i].isFinalizada())
+			if(data.isFinalizada())
 				finalizada = "SI";
 			else
 				finalizada = "NO";
 			
-			Object[] nuevaFila = {arregloPartidas[i].getCodigo(), arregloPartidas[i].getProximoJugador().getNombre(), arregloPartidas[i].getEventualGanador().getNombre().toString(), enCurso, finalizada};
+			Object[] nuevaFila = {data.getCodigo(), data.getProximoJugador().getNombre(), data.getEventualGanador().getNombre().toString(), enCurso, finalizada};
 			modeloPartidasRegistradas.addRow(nuevaFila);
 		}
 		

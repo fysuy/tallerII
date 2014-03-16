@@ -2,6 +2,10 @@ package PresentacionCliente.Controladores;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+
+import javax.swing.JOptionPane;
+
+import Excepciones.ElJugadorNoTieneCartasException;
 import Logica.DataCarta;
 import Logica.IFacadeLogica;
 
@@ -18,10 +22,14 @@ public class ControladorVisualizarCartas extends UnicastRemoteObject implements 
 		DataCarta arregloDataCarta[] = null;
 		try 
 		{
-			arregloDataCarta = this.fac.VisualizarCartas2(codigoJugador);
-		}
-		catch (RemoteException e) { e.printStackTrace(); throw e; } 
-		catch (Exception e) { e.printStackTrace(); }			
+			arregloDataCarta = this.fac.VisualizarCartasCompletas(codigoJugador);
+		} catch (RemoteException e) {
+			JOptionPane.showMessageDialog(null, "RemoteException", "ERROR!", JOptionPane.ERROR_MESSAGE);
+		} catch (ElJugadorNoTieneCartasException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "ERROR!", JOptionPane.ERROR_MESSAGE);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Exception", "ERROR!", JOptionPane.ERROR_MESSAGE);
+		}	
 		
 		return arregloDataCarta;
 	}

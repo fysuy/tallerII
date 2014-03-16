@@ -21,6 +21,7 @@ import PresentacionCliente.Controladores.ControladorListarJugadores;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.rmi.RemoteException;
 
 public class FrmListarJugadores extends JPanel {
 	
@@ -35,6 +36,9 @@ public class FrmListarJugadores extends JPanel {
 	private FacadeDispatcher facadeDispatcher = new FacadeDispatcher();
 		
 	public FrmListarJugadores() {
+		
+		try {  listarJugadores = new ControladorListarJugadores(facadeDispatcher.getFacade()); }
+		catch (RemoteException e1) { e1.printStackTrace(); }
 		
 		setBounds(100, 500, 853, 343);
 		contentPane = new JPanel();
@@ -88,20 +92,28 @@ public class FrmListarJugadores extends JPanel {
 	}
 	
 	public void ListarPartidas(){
-		listarJugadores = new ControladorListarJugadores(facadeDispatcher.getFacade());
-		DataListarJugadoresPartidas data[] = listarJugadores.ListarJugadores();
-		for(int i=data.length-1; i>=0; i=i-1){
-			Object[] nuevaFila = {Integer.toString(data[i].getNumero()), data[i].getNombre(), Integer.toString(data[i].getPuntos())};
-			modelo.addRow(nuevaFila);
-		}
+		
+		try 
+		{
+			DataListarJugadoresPartidas data[] = listarJugadores.ListarJugadores();
+			for(int i=data.length-1; i>=0; i=i-1)
+			{
+				Object[] nuevaFila = {Integer.toString(data[i].getNumero()), data[i].getNombre(), Integer.toString(data[i].getPuntos())};
+				modelo.addRow(nuevaFila);
+			}
+		} 
+		catch (RemoteException e) { e.printStackTrace(); }
 	}
 	
-	public boolean HayPartidaIniciada(){
-		listarJugadores = new ControladorListarJugadores(facadeDispatcher.getFacade());
-		return listarJugadores.HayPartidaIniciada();
+	public boolean HayPartidaIniciada() {
+		boolean result = false;
+		
+		try { result = listarJugadores.HayPartidaIniciada(); }
+		catch (RemoteException e) { e.printStackTrace(); }
+		
+		return result;
 	}
 	
-
 	public JPanel getPanel(){			
 		return contentPane;
 	}

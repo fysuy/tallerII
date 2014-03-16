@@ -1,21 +1,13 @@
 package PresentacionCliente.Vistas;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.rmi.RemoteException;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.LayoutManager;
-
-import javax.swing.ImageIcon;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.border.EmptyBorder;
-
 import org.jdesktop.swingx.JXPanel;
 
 import Logica.IFacadeLogica;
@@ -25,6 +17,7 @@ import PresentacionCliente.StatusBar;
 
 import java.awt.Toolkit;
 
+@SuppressWarnings("serial")
 public class FrmPrincipal extends JFrame {
 
 	private JPanel mainPanel; 
@@ -67,8 +60,6 @@ public class FrmPrincipal extends JFrame {
 			public void removeLayoutComponent(Component comp) {
 			}
 		});
-		
-		
 		
 		jxPanel.add(barraHerramientas, BorderLayout.NORTH);
 		jxPanel.add(mainPanel, BorderLayout.CENTER);

@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 import java.util.Iterator;
 import java.util.TreeMap;
 
+import Excepciones.HayMenosDeDosJugadoresException;
 import Excepciones.PartidaNoExisteException;
 
 public class Partidas implements Serializable {
@@ -32,10 +33,11 @@ public class Partidas implements Serializable {
 			for(int i = 0; i < dataCrearNuevaPartida.getArregloNombres().length; i++)
 			{
 				Cartas cartas = new Cartas();
-				Jugador jugador = new Jugador(i + 1, dataCrearNuevaPartida.getArregloNombres()[i], 0, false, false, cartas);
+				cartas.InicializarTope();
+				Jugador jugador = new Jugador(i, dataCrearNuevaPartida.getArregloNombres()[i], 0, false, false, cartas);
 				jugadores.insert(jugador);
 			}
-			Partida partida = new Partida(clave, jugadores.find(1), jugadores.find(1), false, false, jugadores);
+			Partida partida = new Partida(clave, jugadores.find(0), jugadores.find(0), false, false, jugadores);
 			tm.put(clave, partida); 
 					
 		}
@@ -62,7 +64,7 @@ public class Partidas implements Serializable {
 			try {
 				partida = this.find(codigo);
 				partida.setEnCurso(true);
-				partida.getJugadores().find(1).setEnturno(true);
+				partida.getJugadores().find(0).setEnturno(true);
 			} 
 			catch (PartidaNoExisteException e) { throw e; } 
 		}
@@ -178,7 +180,7 @@ public class Partidas implements Serializable {
 		
 		    }
 	   }
-	   public int CantidadJugadoresNoEliminados(DataPartida dataPartidaActual){
+	   public int CantidadJugadoresNoEliminados(DataPartida dataPartidaActual)throws HayMenosDeDosJugadoresException{
 		   
 		   Jugadores jugadores = dataPartidaActual.getJugadores();		   
 		   DataJugador dataJugador[] = jugadores.obtenerJugadores();
@@ -190,7 +192,10 @@ public class Partidas implements Serializable {
 				{
 					cantidad++;
 				}
-			} 		   
+			}
+		   if(cantidad < 2)
+			   throw new HayMenosDeDosJugadoresException("La partida ya finalizó");
+		   
 		   return cantidad;
 	   }
 

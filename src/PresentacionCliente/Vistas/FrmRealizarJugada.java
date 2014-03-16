@@ -15,6 +15,7 @@ import PresentacionCliente.Controladores.ControladorRealizarJugada;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.rmi.RemoteException;
 
 @SuppressWarnings("serial")
 public class FrmRealizarJugada extends JPanel {
@@ -27,6 +28,12 @@ public class FrmRealizarJugada extends JPanel {
 	private FacadeDispatcher facadeDispatcher = new FacadeDispatcher();
 		
 	public FrmRealizarJugada() {
+		
+		try {
+			controladorRealizarJugada = new ControladorRealizarJugada(facadeDispatcher.getFacade());
+		} catch (RemoteException e1) {
+			e1.printStackTrace();
+		}
 		
 		setBounds(100, 500, 853, 343);
 		contentPane = new JPanel();
@@ -41,8 +48,11 @@ public class FrmRealizarJugada extends JPanel {
 				
 				DataPartida actual = PartidaActual();
 				DataRealizarJugada dataRealizarJugada = new DataRealizarJugada(quiereCarta, actual);
-				controladorRealizarJugada = new ControladorRealizarJugada(facadeDispatcher.getFacade());
-				controladorRealizarJugada.RealizarJugada(dataRealizarJugada);
+				try {
+					controladorRealizarJugada.RealizarJugada(dataRealizarJugada);
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
 				
 			}
 		});
@@ -61,13 +71,17 @@ public class FrmRealizarJugada extends JPanel {
 
 	}
 	
-	public DataPartida PartidaActual(){
-		controladorRealizarJugada = new ControladorRealizarJugada(facadeDispatcher.getFacade());
-		return controladorRealizarJugada.Partida();
+	public DataPartida PartidaActual() {
+		DataPartida data = null;
+		try {
+			data = controladorRealizarJugada.Partida();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return data;
 	}
 	
 	public void QuiereCarta(DataRealizarJugada data){
-		controladorRealizarJugada = new ControladorRealizarJugada(facadeDispatcher.getFacade());
 		controladorRealizarJugada.QuiereCarta(data); //TODO: para que esta esto?????
 	}
 

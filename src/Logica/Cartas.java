@@ -22,21 +22,22 @@ public class Cartas implements Serializable {
 		return (cartas.tope != 0);
 	}
 	
-	void InicializarTope (Cartas cartas)
+	void InicializarTope ()//Cartas cartas
 	{
-		cartas.tope = 0;
+		//cartas.tope = 0;
+		this.tope = 0;
 	}
 
-	int darTopeDelArreglo(Cartas cartas)
+	int darTopeDelArreglo()
 	{
-	    return cartas.tope;
+	    return this.tope;
 	}
 
-	void InsertarCarta (Cartas cartas, Carta carta)
+	void InsertarCarta (Carta carta)//(Cartas cartas, Carta carta)
 	{
-	    int topeArre = darTopeDelArreglo(cartas);
-	    cartas.arregloCartas[topeArre] = carta;	    
-	    cartas.tope = topeArre + 1;
+	    //int topeArre = darTopeDelArreglo(cartas);
+	    this.arregloCartas[tope] = carta;	    
+	    this.tope++;// = tope++;
 	}
 
 
@@ -93,10 +94,11 @@ public class Cartas implements Serializable {
 		Carta carta = arregloCartas[this.tope - 1];
 		borrarCarta();
 		Cartas cartas = jugador.getCartas();
-		cartas.tope++;
-		cartas.arregloCartas[cartas.tope] = carta;
+		cartas.InsertarCarta(carta);
 		return carta.getValorEnJuego();
 	}
+	
+	
 	
 
 }

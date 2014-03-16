@@ -25,6 +25,7 @@ import PresentacionCliente.Controladores.ControladorVisualizarCartas;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.rmi.RemoteException;
 
 import javax.swing.JTextField;
 
@@ -42,6 +43,10 @@ public class FrmListarTodoCartasDeUnJugadores extends JPanel {
 	private FacadeDispatcher facadeDispatcher = new FacadeDispatcher();
 	
 	public FrmListarTodoCartasDeUnJugadores() {
+		try {
+			this.controladorVisualizarCartas = new ControladorVisualizarCartas(facadeDispatcher.getFacade());
+		} 
+		catch (RemoteException e2) { e2.printStackTrace(); }
 		
 		setBounds(100, 500, 853, 343);
 		contentPane = new JPanel();
@@ -104,12 +109,13 @@ public class FrmListarTodoCartasDeUnJugadores extends JPanel {
 
 	}
 	
-	public void ListarCartas(int codigoJugador) throws PartidaNoHayEnCursoException{
-		controladorVisualizarCartas = new ControladorVisualizarCartas(facadeDispatcher.getFacade());
+	public void ListarCartas(int codigoJugador) throws PartidaNoHayEnCursoException {
 		DataCarta arregloDataCarta[] = {};
-		arregloDataCarta = controladorVisualizarCartas.VisualizarCartas(codigoJugador);
+		try {
+			arregloDataCarta = controladorVisualizarCartas.VisualizarCartas(codigoJugador);
+		} catch (RemoteException e) { e.printStackTrace(); }
 		
-		for(int i=0; i<arregloDataCarta.length; i++){
+		for(int i=0; i<arregloDataCarta.length; i++) {
 						
 			Object[] nuevaFila = {arregloDataCarta[i].getPalo(), arregloDataCarta[i].getValor(), Integer.toString(arregloDataCarta[i].getValorEnJuego())};
 			modelo.addRow(nuevaFila);

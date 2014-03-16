@@ -24,6 +24,7 @@ public class Jugador implements Serializable {
 	}
 	
 	public Cartas getCartas() {
+		
 		return cartas;
 	}
 	

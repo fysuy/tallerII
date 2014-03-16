@@ -20,6 +20,7 @@ import PresentacionCliente.Controladores.ControladorListarJugadores;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.rmi.RemoteException;
 
 import javax.swing.border.LineBorder;
 import javax.swing.JTextField;
@@ -40,6 +41,12 @@ public class FrmJugadoresPartidas extends JPanel {
 	private FacadeDispatcher facadeDispatcher = new FacadeDispatcher();
 		
 	public FrmJugadoresPartidas() {
+		
+		try {
+			listarJugadores = new ControladorListarJugadores(facadeDispatcher.getFacade());
+		} catch (RemoteException e1) {
+			e1.printStackTrace();
+		}
 		
 		setBounds(100, 500, 853, 343);
 		contentPane = new JPanel();
@@ -119,10 +126,13 @@ public class FrmJugadoresPartidas extends JPanel {
 
 	}
 	
-	public DataListarJugadoresPartidas[] ListarPartidas(String codigo){
-		listarJugadores = new ControladorListarJugadores(facadeDispatcher.getFacade());
-		return listarJugadores.ListarJugadores();
-	
+	public DataListarJugadoresPartidas[] ListarPartidas(String codigo) {
+		DataListarJugadoresPartidas[] listaPartidas = null;
+		
+		try { listaPartidas = listarJugadores.ListarJugadores(); } 
+		catch (RemoteException e) { e.printStackTrace(); }	
+		
+		return listaPartidas;
 	}
 	
 

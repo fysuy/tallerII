@@ -70,8 +70,6 @@ public class FrmPrincipalJugadores extends JFrame {
 			}
 		});
 		
-		
-		
 		jxPanel.add(barraHerramientas, BorderLayout.NORTH);
 		jxPanel.add(mainPanel, BorderLayout.CENTER);
 		jxPanel.add(statusBar, BorderLayout.SOUTH);

@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import Logica.Facade;
+import PresentacionCliente.FacadeDispatcher;
 import PresentacionCliente.Utilidades;
 import PresentacionCliente.Controladores.ControladorRespaldarDatos;
 
@@ -25,6 +26,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.Font;
+import java.rmi.RemoteException;
 
 import javax.swing.JProgressBar;
 
@@ -35,6 +37,7 @@ public class FrmRespaldarDatos extends JPanel {
 	private JButton btnCancelar;
 	private JButton button;
 	private ControladorRespaldarDatos controladorGuardarPartida;
+	private FacadeDispatcher facadeDispatcher = new FacadeDispatcher();
 	
 	public FrmRespaldarDatos() {
 		
@@ -46,12 +49,20 @@ public class FrmRespaldarDatos extends JPanel {
 		contentPane.setOpaque(false);
 		setLayout(null);
 		
-		controladorGuardarPartida = new ControladorRespaldarDatos();
+		try {
+			controladorGuardarPartida = new ControladorRespaldarDatos(facadeDispatcher.getFacade());
+		} catch (RemoteException e1) {
+			e1.printStackTrace();
+		}
 		
 		btnIniciar = new JButton("Si");
 		btnIniciar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controladorGuardarPartida.RespaldarDatos();
+				try {
+					controladorGuardarPartida.RespaldarDatos();
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
 				JOptionPane.showMessageDialog(contentPane, "La información fue respaldada con exito!", "", JOptionPane.INFORMATION_MESSAGE);
 				contentPane.removeAll();
 				contentPane.updateUI();
